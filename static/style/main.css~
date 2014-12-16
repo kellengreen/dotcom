@@ -1,0 +1,68 @@
+/* GLOBAL */
+* { margin: 0; padding: 0 }
+html { background: #141414; background: hsl(0, 0%, 8%); }
+body { color: #FFF; font: 18px/36px 'Courier New', Courier, monospace }
+h3 { font-size: 1em; font-weight: normal }
+
+/* TEMPLATES */
+.template { display: none }
+
+/* MAIN PAGE */
+#main { padding: 50px }
+
+/* NOTE */
+.csslike .note { color: #CCDF32 }
+.csslike .note:before { content: '/* ' }
+.csslike .note:after { content: ' \00a0*/' }
+.csslike .note p:before { content: '\00a0*\00a0' }
+
+/* SELECTOR */
+.csslike .selector,
+.csslike .selector-end { color: #D25252 }
+.csslike .selector:before { content: '.' }
+.csslike .selector:after { content: ' {'; color: #FFF }
+.csslike .selector-close:after { content: '}' }
+
+/* RULE */
+.csslike .rule { margin-left: 50px; list-style: none }
+.csslike .rule:after { content: '\00a0;' }
+
+/* PROPERTY */
+.csslike .property { color: #79ABFF }
+.csslike .property:after { content: ':\00a0'; color: #FFF }
+
+/* VALUE */
+.csslike span.value { color: #FFC600 }
+.csslike a.value { text-decoration: none; color: #7FB347 }
+.csslike a.value:hover { text-decoration: underline }
+.csslike a.value:before,
+.csslike a.value:after { content: '"' }
+
+/* IMPORTANT */
+.csslike .important { color: #EFC090 }
+.csslike .important:before { content: '\00a0!'}
+
+/* SQUARES */
+#squares {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.square {
+    position: absolute;
+    border-width: 1px;
+    border-style: solid;
+    width: 25px;
+    height: 25px;
+    border-radius: 1px;
+}
+
+.square.red { border-color:hsla(0, 59%, 57%, .5) }
+.square.blue { border-color:hsla(218, 100%, 74%, .5) }
+.square.yellow { border-color:hsla(47, 100%, 50%, .5) }
+.square.green { border-color: hsla(89, 43%, 49%, .5) }

@@ -1,0 +1,163 @@
+/*
+ * GLOBAL
+ */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    background: hsl(0, 0%, 8%);
+}
+
+body {
+    color: #FFF;
+    font: 18px/2 'Courier New', Courier, monospace;
+}
+
+h3 {
+    font-size: 1em;
+    font-weight: normal;
+}
+
+/*
+ * MAIN
+ */
+#main {
+    padding: 50px;
+}
+
+/*
+ * NOTE
+ */
+.note {
+    color: #CCDF32;
+}
+
+.note:before {
+    content: '/* ';
+ }
+
+.note:after {
+    content: ' \00a0*/';
+}
+
+.note > *:before {
+    content: '\00a0*\00a0';
+}
+
+/*
+ * BLOCK
+ */
+.block:after {
+    content: '}';
+}
+
+/*
+ * SELECTOR
+ */
+.selector {
+    color: #D25252;
+}
+
+.selector:before {
+    content: '.';
+    color: #FFF;
+}
+
+.selector:after {
+    content: ' {';
+    color: #FFF;
+}
+
+/* RULE */
+.rule {
+    margin-left: 50px;
+}
+
+.rule:after {
+    content: ';';
+}
+
+/*
+ * PROPERTY
+ */
+.prop {
+    color: #79ABFF;
+}
+
+.prop:after {
+    content: ':\00a0';
+    color: #FFF;
+}
+
+/*
+ * VALUE
+ */
+.val {
+    color: #FFC600;
+}
+
+a.val {
+    text-decoration: none;
+    color: #7FB347;
+}
+
+a.val:hover {
+    text-decoration: underline;
+}
+
+a.val:before,
+a.val:after {
+    content: '"';
+}
+
+/*
+ * IMPORTANT
+ */
+.important {
+    color: #EFC090;
+}
+
+.important:before {
+    content: '\00a0!';
+}
+
+/*
+ * SQUARES
+ */
+#squares {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.square {
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 1px;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.square.red {
+    border-color:hsla(0, 59%, 57%, .5);
+}
+
+.square.blue {
+    border-color:hsla(218, 100%, 74%, .5);
+}
+
+.square.yellow {
+    border-color:hsla(47, 100%, 50%, .5);
+}
+
+.square.green {
+    border-color: hsla(89, 43%, 49%, .5);
+}
