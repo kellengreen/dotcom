@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="17ece284-f351-4cf1-bb22-fd82db8bfb97" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/static/script/eastereggs.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/static/script/main.js" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/static/script/mtf.js" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/static/script/squares.js" afterPath="$PROJECT_DIR$/static/squares.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/static/style/main.css" afterPath="$PROJECT_DIR$/static/main.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Google_App_Engine_SDK.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/kellengreen.com.iml" afterPath="$PROJECT_DIR$/.idea/kellengreen.com.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="kellengreen.com.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,20 +28,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="705">
-              <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.11070111" vertical-offset="0" max-vertical-offset="813">
+              <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="squares.js" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="squares.js" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/static/squares.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.0185186" vertical-offset="270" max-vertical-offset="1200">
+            <state vertical-scroll-proportion="-37.77778" vertical-offset="75" max-vertical-offset="1200">
               <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
               <folding />
             </state>
@@ -82,14 +74,14 @@
         <option value="$PROJECT_DIR$/static/script/squares.js" />
         <option value="$PROJECT_DIR$/static/style/main.css" />
         <option value="$PROJECT_DIR$/static/script/eastereggs.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/static/squares.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="1196" />
+    <option name="x" value="-3775" />
+    <option name="y" value="-4" />
     <option name="width" value="1855" />
     <option name="height" value="1204" />
   </component>
@@ -380,7 +372,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="1196" width="1855" height="1204" extended-state="6" />
+    <frame x="-3775" y="-4" width="1855" height="1204" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -431,18 +423,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/static/squares.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.25" vertical-offset="0" max-vertical-offset="705">
-          <caret line="10" column="14" selection-start-line="10" selection-start-column="14" selection-end-line="10" selection-end-column="14" />
+        <state vertical-scroll-proportion="-37.77778" vertical-offset="75" max-vertical-offset="1200">
+          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/squares.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.0185186" vertical-offset="270" max-vertical-offset="1200">
-          <caret line="73" column="0" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.11070111" vertical-offset="0" max-vertical-offset="813">
+          <caret line="6" column="14" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="14" />
           <folding />
         </state>
       </provider>
