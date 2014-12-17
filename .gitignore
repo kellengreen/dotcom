@@ -1,0 +1,15 @@
+# PYTHON
+*.pyc
+
+# PYCHARM
+.idea
+
+# NODE
+node_modules
+
+# OS 
+.DS_Store
+*~
+
+# PIP
+pip
