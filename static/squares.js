@@ -24,8 +24,8 @@
 
         function SquareElem() {
             this.elem = document.createElement('div');
-            this.elem.classList.add('square');
-            this.elem.classList.add(this.colors[this.randInt(0, 3)]);
+            this.elem.classList.add(this.baseClass);
+            this.elem.classList.add(this.colorClasses[this.randInt(0, 3)]);
         }
 
         SquareElem.prototype.overscan = 30;
@@ -35,7 +35,8 @@
         SquareElem.prototype.maxRotate = 1000;
         SquareElem.prototype.minDuration = 6000;
         SquareElem.prototype.maxDuration = 20000;
-        SquareElem.prototype.colors = ['red', 'blue', 'green', 'yellow'];
+        SquareElem.prototype.baseClass = 'square';
+        SquareElem.prototype.colorClasses = ['red', 'blue', 'green', 'yellow'];
 
         SquareElem.prototype.randFloat = function(min, max) {
             return Math.random() * (max - min) + min;
