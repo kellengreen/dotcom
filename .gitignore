@@ -4,12 +4,9 @@
 # PYCHARM
 .idea
 
-# NODE
-node_modules
+# APP ENGINE
+google_appengine
 
 # OS 
 .DS_Store
 *~
-
-# PIP
-pip
