@@ -1,9 +1,8 @@
- /*
- * Name: Squares Background
- * Author: Kellen Green
- * Date: 2016/02/24
- * Version: 3.0
- */
+ /**
+  * Name: Squares Background
+  * Author: Kellen Green
+  */
+ 
 (function() {
 
     function ready(callback) {
@@ -87,11 +86,13 @@
             window.addEventListener('resize', this.resize.bind(this));
         }
 
+        SquareManager.prototype.widthPerSquare = 12;
+
         SquareManager.prototype.setDimensions = function() {
             this.rafPending = false;
-            this.width = window.innerWidth;
-            this.height = window.innerHeight;
-            this.targetSquares = Math.round(this.width / 12);
+            this.windowWidth = window.innerWidth;
+            this.windowHeight = window.innerHeight;
+            this.targetSquares = Math.round(this.windowWidth / this.widthPerSquare);
             this.drawSquares();
         };
 
@@ -113,7 +114,7 @@
         };
 
         SquareManager.prototype.animationStart = function(square) {
-            var animation = square.animation(this.width, this.height);
+            var animation = square.animation(this.windowWidth, this.windowHeight);
             animation.onfinish = this.animationEnd.bind(this, square);
         };
 

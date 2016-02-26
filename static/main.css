@@ -1,6 +1,7 @@
 /*
  * GLOBAL
  */
+
 * {
     margin: 0;
     padding: 0;
@@ -24,6 +25,7 @@ h3 {
 /*
  * MAIN
  */
+
 #main {
     padding: 3.125rem;
 }
@@ -31,6 +33,7 @@ h3 {
 /*
  * NOTE
  */
+
 .note {
     color: #CCDF32;
 }
@@ -50,6 +53,7 @@ h3 {
 /*
  * BLOCK
  */
+
 .block:after {
     content: '}';
 }
@@ -57,6 +61,7 @@ h3 {
 /*
  * SELECTOR
  */
+
 .selector {
     color: #D25252;
 }
@@ -71,7 +76,10 @@ h3 {
     color: #FFF;
 }
 
-/* RULE */
+/*
+ * RULE
+ */
+
 .rule {
     margin-left: 3.125rem;
 }
@@ -83,6 +91,7 @@ h3 {
 /*
  * PROPERTY
  */
+
 .prop {
     color: #79ABFF;
 }
@@ -95,6 +104,7 @@ h3 {
 /*
  * VALUE
  */
+
 .val {
     color: #FFC600;
 }
@@ -116,6 +126,7 @@ a.val:after {
 /*
  * IMPORTANT
  */
+
 .important {
     color: #EFC090;
 }
@@ -127,6 +138,7 @@ a.val:after {
 /*
  * SQUARES
  */
+
 #squares {
     overflow: hidden;
     position: fixed;
@@ -143,21 +155,21 @@ a.val:after {
     top: -1.6rem;
     width: 1.6rem;
     height: 1.6rem;
-    border-radius: 0.0625rem;
-    border-width: 0.0625rem;
+    border-radius: .125rem;
+    border-width: .125rem;
     border-style: solid;
 }
 
 .square.red {
-    border-color:hsla(0, 59%, 57%, .5);
+    border-color: hsla(0, 59%, 57%, .5);
 }
 
 .square.blue {
-    border-color:hsla(218, 100%, 74%, .5);
+    border-color: hsla(218, 100%, 74%, .5);
 }
 
 .square.yellow {
-    border-color:hsla(47, 100%, 50%, .5);
+    border-color: hsla(47, 100%, 50%, .5);
 }
 
 .square.green {
