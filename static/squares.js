@@ -63,8 +63,11 @@ class SquareContainer {
     /**
      * SquareContainer
      */
-    constructor(selector) {
-        this.elem = document.querySelector(selector);
+    constructor() {
+        this.elem = document.createElement('div');
+        this.elem.classList.add(SquareContainer.baseClass);
+        document.body.appendChild(this.elem);
+
         this.initAnimations();
         window.addEventListener('resize', this.debounce(this.resize, 100));
     }
@@ -107,5 +110,6 @@ class SquareContainer {
 }
 
 SquareContainer.pxPerSquare = 12;
+SquareContainer.baseClass = 'squares';
 
-new SquareContainer('#squares');
+new SquareContainer();

@@ -26,7 +26,7 @@ h3 {
  * MAIN
  */
 
-#main {
+.main {
     padding: 3.125rem;
 }
 
@@ -139,7 +139,7 @@ a.val:after {
  * SQUARES
  */
 
-#squares {
+.squares {
     overflow: hidden;
     position: fixed;
     top: 0;
