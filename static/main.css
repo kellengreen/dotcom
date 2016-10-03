@@ -31,22 +31,22 @@ h3 {
 }
 
 /*
- * NOTE
+ * COMMENT
  */
 
-.note {
+.comment {
     color: #CCDF32;
 }
 
-.note:before {
-    content: '/* ';
+.comment:before {
+    content: '/*';
  }
 
-.note:after {
-    content: ' \00a0*/';
+.comment:after {
+    content: '\00a0*/';
 }
 
-.note > *:before {
+.comment > *:before {
     content: '\00a0*\00a0';
 }
 
@@ -72,7 +72,7 @@ h3 {
 }
 
 .selector:after {
-    content: ' {';
+    content: '\00a0{';
     color: #FFF;
 }
 
@@ -109,17 +109,26 @@ h3 {
     color: #FFC600;
 }
 
-a.val {
+.val + .val:before {
+    content: ',\00a0';
+    color: #FFF;
+}
+
+/*
+ * QUOTED
+ */
+
+.quoted {
     text-decoration: none;
     color: #7FB347;
 }
 
-a.val:hover {
+.quoted:hover {
     text-decoration: underline;
 }
 
-a.val:before,
-a.val:after {
+.quoted:before,
+.quoted:after {
     content: '"';
 }
 
@@ -150,6 +159,7 @@ a.val:after {
 }
 
 .square {
+    will-change: transform;
     display: block;
     position: absolute;
     top: -1.6rem;
