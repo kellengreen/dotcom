@@ -158,8 +158,7 @@ h3 {
     z-index: -1;
 }
 
-.square {
-    will-change: transform;
+.squares > * {
     display: block;
     position: absolute;
     top: -1.6rem;
@@ -170,18 +169,18 @@ h3 {
     border-style: solid;
 }
 
-.square.red {
+.squares > *.red {
     border-color: hsla(0, 59%, 57%, .5);
 }
 
-.square.blue {
+.squares > *.blue {
     border-color: hsla(218, 100%, 74%, .5);
 }
 
-.square.yellow {
+.squares > *.yellow {
     border-color: hsla(47, 100%, 50%, .5);
 }
 
-.square.green {
+.squares > *.green {
     border-color: hsla(89, 43%, 49%, .5);
 }
