@@ -9,6 +9,7 @@ class Squares {
          * 
          */
         this.container = null;
+        this.staleAnimations = new Set();
         this.animations = new Map();
         this.targetSquareCount = 0;
         this.currentSquareCount = 0;
@@ -95,7 +96,7 @@ class Squares {
         this.container.appendChild(elem);
 
         const animation = this.createAnimation(elem);
-        this.animations.set(animation, elem);        
+        this.animations.set(animation, elem);
     }
 
     createAnimation(elem) {
@@ -164,3 +165,8 @@ class Squares {
 
 const squares = new Squares();
 console.dir(squares);
+
+const stylesheet = document.styleSheets[0];
+console.dir(stylesheet);
+const idx = stylesheet.insertRule('body{overflow-y:hidden!important}', stylesheet.cssRules.length);
+console.dir(idx);
