@@ -114,7 +114,7 @@ class Squares {
 
         const keyFrames = {
             transform: [transformStart, transformEnd],
-            opacity: [1, 0],
+            opacity: [1.0, 0.1],
         };
 
         const options = {
@@ -146,10 +146,9 @@ class Squares {
             // const squareElem = new SquareElem();
             // squareElem.fallingAnimation(currentWindowWidth, currentWindowHeight);
             // this.squareElems.push(squareElem);
-            // this.container.appendChild(squareElem.container);
+            this.containerElement.appendChild(elem);
         }
     }
 }
 
 const squares = new Squares();
-console.dir(squares);
