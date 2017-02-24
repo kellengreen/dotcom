@@ -8,34 +8,33 @@ class Squares {
         /**
          * 
          */
-        this.containerElement = null;
-        this.childElements = [];
-        this.squares = [];
+        this.container = null;
+        this.staleAnimations = new Set();
+        this.animations = new Map();
         this.targetSquareCount = 0;
         this.currentSquareCount = 0;
         this.currentWindowWidth = 0;
         this.currentWindowHeight = 0;
 
-        this.setContainerElement();
+        this.setContainer();
         this.setSizeProps();
 
-        this.initAnimations();
+        this.initAnimation();
         window.addEventListener('resize', this.debounce(this.setSizeProps, 100));
     }
 
     /**
      * Class static properties.
      */
-    get pxPerSquare() { return 12 };
-    get overscan() { return 30 };
-    get minScale() { return .5 };
-    get maxScale() { return 1 };
-    get minRotate() { return 500 };
-    get maxRotate() { return 1000 };
-    get minGravity() { return .025 };
-    get maxGravity() { return .100 };
-    get baseClass() { return 'squares' };
-    get colorClasses() { return ['red', 'blue', 'green', 'yellow'] };
+    get pxPerSquare()   { return 12 };
+    get overscan()      { return 30 };
+    get minScale()      { return .5 };
+    get maxScale()      { return 1 };
+    get minRotate()     { return 500 };
+    get maxRotate()     { return 1000 };
+    get minGravity()    { return .050 };
+    get maxGravity()    { return .125 };
+    get colorClasses()  { return ['red', 'blue', 'green', 'yellow'] };
 
     randFloat(min, max) {
         /**
@@ -76,28 +75,31 @@ class Squares {
         this.targetSquareCount = Math.floor(this.currentWindowWidth / this.pxPerSquare);
     }
 
-    setContainerElement() {
+    setContainer() {
         /**
          * Sets the container element.
          */
-        this.containerElement = document.createElement('div');
-        this.containerElement.classList.add(this.baseClass);
-        document.body.appendChild(this.containerElement);
+        this.container = document.createElement('div');
+        this.container.classList.add('squares');
+        document.body.appendChild(this.container);
     }
 
-    createChildElement() {
+    createChild() {
         /**
          * Create child element.
          */
         const elem = document.createElement('div');
         const colorIdx = this.randInt(0, this.colorClasses.length - 1);
         const colorClass = this.colorClasses[colorIdx];
+        
         elem.classList.add(colorClass);
-        // this.containerElement.appendChild(elem);
-        return elem;
+        this.container.appendChild(elem);
+
+        const animation = this.createAnimation(elem);
+        this.animations.set(animation, elem);
     }
 
-    animationStart(elem) {
+    createAnimation(elem) {
         /**
          * 
          */
@@ -123,19 +125,29 @@ class Squares {
         };
 
         const animation = elem.animate(keyFrames, options); 
-        animation.onfinish = this.animationFinished;
+        animation.onfinish = this.completedAnimation.bind(this);
+        return animation;
     }
 
-    animationFinished(evt) {
+    completedAnimation(evt) {
         /**
-         * 
+         * Callback when animation has finished. 
          */
         const animation = evt.currentTarget;
-        // console.dir(animation);
-        animation.play();
+        const elem = this.animations.get(animation);
+        
+        // too many elements
+        if (this.animations.size > this.targetSquareCount) {
+            this.container.removeChild(elem);
+            this.animations.delete(animation);
+        }
+
+        else {
+            animation.play();
+        }
     }
 
-    initAnimations() {
+    initAnimation() {
         /**
          * 
          */
@@ -148,7 +160,23 @@ class Squares {
             // this.squareElems.push(squareElem);
             this.containerElement.appendChild(elem);
         }
+        
+        // too few elements 
+        while (this.animations.size < this.targetSquareCount) {
+            this.createChild();
+        }
+        
+        while (this.animations.size > this.targetSquareCount) {
+
+        }
     }
 }
 
 const squares = new Squares();
+
+console.dir(squares);
+
+const stylesheet = document.styleSheets[0];
+console.dir(stylesheet);
+const idx = stylesheet.insertRule('body{overflow-y:hidden!important}', stylesheet.cssRules.length);
+console.dir(idx);

@@ -1,11 +1,5 @@
-# PYTHON
-*.pyc
-
-# PYCHARM
-.idea
-
-# APP ENGINE
-google_appengine
+# Node
+node_modules
 
 # OS 
 .DS_Store
