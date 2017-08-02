@@ -7,26 +7,25 @@ class Squares {
         /**
          *
          */
-        this.container;
-        this.setContainer();
-
-        this.viewportWeight;
-        this.viewportHeight;
-        this.squareTarget;
+        this.container = this.makeContainer();
+        this.viewportWeight = 0;
+        this.viewportHeight = 0;
+        this.squareTarget= 0;
         this.squareElems = new Map();
         this.addSquares();
-
         window.addEventListener('resize', this.debounce(this.addSquares, 250));
     }
 
     get pxPerSquare()   { return 12 };
     get overscan()      { return 30 };
-    get minScale()      { return .33 };
+    get minScale()      { return .5 };
     get maxScale()      { return 1 };
     get minRotate()     { return 500 };
     get maxRotate()     { return 1000 };
     get minGravity()    { return .040 };
     get maxGravity()    { return .125 };
+    get minOpacity()    { return .1 };
+    get maxOpacity()    { return .5 };
     get colorClasses()  { return ['red', 'blue', 'green', 'yellow'] };
 
     randFloat(min, max) {
@@ -43,13 +42,14 @@ class Squares {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    setContainer() {
+    makeContainer() {
         /**
          *
          */
-        this.container = document.createElement('div');
-        this.container.classList.add('squares');
-        document.body.appendChild(this.container);
+        const elem = document.createElement('div');
+        elem.classList.add('squares');
+        document.body.appendChild(elem);
+        return elem;
     }
 
     setDimentions() {
@@ -129,7 +129,7 @@ class Squares {
 
         const keyFrames = {
             transform: [transformStart, transformEnd],
-            opacity: [.5, 0],
+            opacity: [this.maxOpacity, this.minOpacity],
         };
 
         const options = {
