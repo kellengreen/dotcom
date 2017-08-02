@@ -4,7 +4,7 @@
     --lime: hsl(67, 73%, 54%);
     --blue: hsl(218, 100%, 74%);
     --red: hsl(0, 59%, 57%);
-    --black: hsl(0, 0%, 10%);
+    --black: hsl(0, 0%, 12%);
     --orange: hsl(47, 100%, 50%);
     --green: hsl(89, 43%, 49%);
     --tan: hsl(30, 75%, 75%);
@@ -133,19 +133,18 @@ body {
 /* SQUARES */
 
 .squares {
-    overflow: hidden;
     position: fixed;
+    overflow: hidden;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0;
+    right: 0;
     z-index: -1;
 }
 
 .squares > * {
-    display: block;
     position: absolute;
-    top: -1.6rem;
+    top: -1.6rem;  
     width: 1.6rem;
     height: 1.6rem;
     border-radius: .125rem;
@@ -153,18 +152,18 @@ body {
     border-style: solid;
 }
 
-.squares > *.red {
-    border-color: hsla(0, 59%, 57%, .5);
+.squares > .red {
+    border-color: var(--red);
 }
 
-.squares > *.blue {
-    border-color: hsla(218, 100%, 74%, .5);
+.squares > .blue {
+    border-color: var(--blue);
 }
 
-.squares > *.yellow {
-    border-color: hsla(47, 100%, 50%, .5);
+.squares > .yellow {
+    border-color: var(--orange);
 }
 
-.squares > *.green {
-    border-color: hsla(89, 43%, 49%, .5);
+.squares > .green {
+    border-color: var(--green);
 }

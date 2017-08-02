@@ -1,38 +1,31 @@
- /**
-  * Name:   Squares Background
-  * Author: Kellen Green
-  * Date:   2016/11/17
-  */
 class Squares {
+    /**
+     * Class:   Squares Background
+     * Author:  Kellen Green
+     */
     constructor() {
         /**
-         * 
+         *
          */
-        this.container = null;
-        this.staleAnimations = new Set();
-        this.animations = new Map();
-        this.targetSquareCount = 0;
-        this.currentSquareCount = 0;
-        this.currentWindowWidth = 0;
-        this.currentWindowHeight = 0;
-
+        this.container;
         this.setContainer();
-        this.setSizeProps();
 
-        this.initAnimation();
-        window.addEventListener('resize', this.debounce(this.setSizeProps, 100));
+        this.viewportWeight;
+        this.viewportHeight;
+        this.squareTarget;
+        this.squareElems = new Map();
+        this.addSquares();
+
+        window.addEventListener('resize', this.debounce(this.addSquares, 250));
     }
 
-    /**
-     * Class static properties.
-     */
     get pxPerSquare()   { return 12 };
     get overscan()      { return 30 };
-    get minScale()      { return .5 };
+    get minScale()      { return .33 };
     get maxScale()      { return 1 };
     get minRotate()     { return 500 };
     get maxRotate()     { return 1000 };
-    get minGravity()    { return .050 };
+    get minGravity()    { return .040 };
     get maxGravity()    { return .125 };
     get colorClasses()  { return ['red', 'blue', 'green', 'yellow'] };
 
@@ -48,7 +41,25 @@ class Squares {
          * Returns a pseudo random integer between two numbers.
          */
         return Math.floor(Math.random() * (max - min + 1)) + min;
-    }        
+    }
+
+    setContainer() {
+        /**
+         *
+         */
+        this.container = document.createElement('div');
+        this.container.classList.add('squares');
+        document.body.appendChild(this.container);
+    }
+
+    setDimentions() {
+        /**
+         * Sets window dimension specific properties.
+         */
+        this.viewportWidth = window.innerWidth;
+        this.viewportHeight = window.innerHeight;
+        this.squareTarget = Math.floor(this.viewportWidth / this.pxPerSquare);
+    }
 
     debounce(fn, delay) {
         /**
@@ -66,57 +77,59 @@ class Squares {
         };
     }
 
-    setSizeProps() {
+    addSquares() {
         /**
-         * Sets window dimension specific properties.
+         * Start the animations
          */
-        this.currentWindowWidth = window.innerWidth;
-        this.currentWindowHeight = window.innerHeight;
-        this.targetSquareCount = Math.floor(this.currentWindowWidth / this.pxPerSquare);
+        this.setDimentions();
+
+        // Set hasResized to true for previously created elements
+        for (const elem of this.squareElems.keys()) {
+            this.squareElems.set(elem, true);
+        }
+
+        while (this.squareElems.size < this.squareTarget) {
+            this.createSquare();
+        }
     }
 
-    setContainer() {
+    createSquare() {
         /**
-         * Sets the container element.
-         */
-        this.container = document.createElement('div');
-        this.container.classList.add('squares');
-        document.body.appendChild(this.container);
-    }
-
-    createChild() {
-        /**
-         * Create child element.
+         * Create square element
          */
         const elem = document.createElement('div');
         const colorIdx = this.randInt(0, this.colorClasses.length - 1);
         const colorClass = this.colorClasses[colorIdx];
-        
+
         elem.classList.add(colorClass);
         this.container.appendChild(elem);
-
-        const animation = this.createAnimation(elem);
-        this.animations.set(animation, elem);
+        this.createAnimation(elem);
     }
 
     createAnimation(elem) {
         /**
-         * 
+         *
          */
         const rotateX = Math.random();
         const rotateY = Math.random();
         const rotateZ = Math.random();
         const rotateA = this.randFloat(this.minRotate, this.maxRotate);
         const scale = this.randFloat(this.minScale, this.maxScale);
-        const translateX = (this.currentWindowWidth - this.overscan) * Math.random();
-        const translateY = this.currentWindowHeight + this.overscan;
-        const duration = (this.overscan + translateY) / this.randFloat(this.minGravity, this.maxGravity);
-        const transformStart = `translate(${translateX}px, -${this.overscan}px) scale(${scale}) rotate3d(0, 0, 0, 0deg)`;
-        const transformEnd = `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
+        const translateX = (this.viewportWidth - this.overscan) * Math.random();
+        const translateY = this.viewportHeight + this.overscan;
+        const duration = translateY / this.randFloat(this.minGravity, this.maxGravity);
+        const transformStart = `
+            translate(${translateX}px, 0)
+            scale(${scale})
+            rotate3d(0, 0, 0, 0deg)`;
+        const transformEnd = `
+            translate(${translateX}px, ${translateY}px)
+            scale(${scale})
+            rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
 
         const keyFrames = {
             transform: [transformStart, transformEnd],
-            opacity: [1.0, 0.1],
+            opacity: [.5, 0],
         };
 
         const options = {
@@ -124,59 +137,36 @@ class Squares {
             iterations: 1,
         };
 
-        const animation = elem.animate(keyFrames, options); 
-        animation.onfinish = this.completedAnimation.bind(this);
-        return animation;
+        const animation = elem.animate(keyFrames, options);
+
+        this.squareElems.set(elem, false);
+
+        animation.onfinish = () => {
+            this.finishedAnimation(elem, animation);
+        }
     }
 
-    completedAnimation(evt) {
+    finishedAnimation(elem, animation) {
         /**
-         * Callback when animation has finished. 
+         * Callback when animation has finished.
          */
-        const animation = evt.currentTarget;
-        const elem = this.animations.get(animation);
-        
-        // too many elements
-        if (this.animations.size > this.targetSquareCount) {
-            this.container.removeChild(elem);
-            this.animations.delete(animation);
+
+        // Too many elements
+        if (this.squareElems.size > this.squareTarget) {
+            elem.remove();
+            this.squareElems.delete(elem);
         }
 
+        // Window resize since last animation
+        else if (this.squareElems.get(elem) === true) {
+            this.createAnimation(elem);
+        }
+
+        // Replate previous animation
         else {
             animation.play();
         }
     }
-
-    initAnimation() {
-        /**
-         * 
-         */
-        for (let i = 0; i < this.targetSquareCount; i++) {
-            this.currentSquareCount++;
-            const elem = this.createChildElement();
-            this.animationStart(elem);
-            // const squareElem = new SquareElem();
-            // squareElem.fallingAnimation(currentWindowWidth, currentWindowHeight);
-            // this.squareElems.push(squareElem);
-            this.containerElement.appendChild(elem);
-        }
-        
-        // too few elements 
-        while (this.animations.size < this.targetSquareCount) {
-            this.createChild();
-        }
-        
-        while (this.animations.size > this.targetSquareCount) {
-
-        }
-    }
 }
 
-const squares = new Squares();
-
-console.dir(squares);
-
-const stylesheet = document.styleSheets[0];
-console.dir(stylesheet);
-const idx = stylesheet.insertRule('body{overflow-y:hidden!important}', stylesheet.cssRules.length);
-console.dir(idx);
+new Squares();
