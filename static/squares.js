@@ -8,8 +8,8 @@ class Squares {
          *
          */
         this.container = this.makeContainer();
-        this.viewportWeight = 0;
-        this.viewportHeight = 0;
+        this.width = 0;
+        this.height = 0;
         this.squareTarget= 0;
         this.squareElems = new Map();
         this.addSquares();
@@ -56,9 +56,9 @@ class Squares {
         /**
          * Sets window dimension specific properties.
          */
-        this.viewportWidth = window.innerWidth;
-        this.viewportHeight = window.innerHeight;
-        this.squareTarget = Math.floor(this.viewportWidth / this.pxPerSquare);
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+        this.squareTarget = Math.floor(this.width / this.pxPerSquare);
     }
 
     debounce(fn, delay) {
@@ -115,8 +115,8 @@ class Squares {
         const rotateZ = Math.random();
         const rotateA = this.randFloat(this.minRotate, this.maxRotate);
         const scale = this.randFloat(this.minScale, this.maxScale);
-        const translateX = (this.viewportWidth - this.overscan) * Math.random();
-        const translateY = this.viewportHeight + this.overscan;
+        const translateX = (this.width - this.overscan) * Math.random();
+        const translateY = this.height + this.overscan;
         const duration = translateY / this.randFloat(this.minGravity, this.maxGravity);
         const transformStart = `
             translate(${translateX}px, 0)

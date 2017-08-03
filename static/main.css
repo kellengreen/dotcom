@@ -27,10 +27,15 @@ body {
     background-color: var(--black);
 }
 
+/* MAIN */
+
+.main {
+    padding: 3.125rem;
+}
+
 /* FAUXCSS */
 
 .fauxcss {
-    padding: 3.125rem;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.125rem;
     line-height: 2;
@@ -39,95 +44,94 @@ body {
 
 .fauxcss *::before,
 .fauxcss *::after {
-     white-space: pre; 
+    white-space: pre;
 }
 
 /* COMMENT */
 
-.fauxcss__comment {
+.fauxcss .comment {
     color: var(--lime);
 }
 
-.fauxcss__comment:first-child::before { 
+.fauxcss .comment:first-child::before { 
     content: '/*\a\20*\20';
 }
 
-.fauxcss__comment + .fauxcss__comment::before {
+.fauxcss .comment:not(:first-child):before {
     content: '\20*\20';
 }
 
-.fauxcss__comment:last-child::after {
+.fauxcss .comment:last-child::after {
     content: '\a\20*/';
 }
 
 /* SELECTOR */
 
-.fauxcss__selector {
+.fauxcss .selector {
     color: var(--red);
 }
 
-.fauxcss__selector::before,
-.fauxcss__selector::after {
+.fauxcss .selector::before {
+    content: '.';
     color: var(--white);
 }
-
-.fauxcss__selector::before {
-    content: '.';
-}
-.fauxcss__selector::after {
-    content: '\a0{';
+.fauxcss .selector::after {
+    content: '\20{';
+    color: var(--white);
 }
 
 /* RULE */
 
-.fauxcss__rule::before {
+.fauxcss .rule::before {
     content: '\20\20\20\20';
 }
 
-.fauxcss__rule::after {
+.fauxcss .rule::after {
     content: ';';
 }
 
-.fauxcss__rule:last-child::after {
+.fauxcss .rule:last-child::after {
     content: ';\a}';
 }
 
-/* PROPERTY */
+/* PROPERTIES */
 
-.fauxcss__prop {
+.fauxcss .prop {
     color: var(--blue);
 }
 
-.fauxcss__prop::after {
-    content: ':\a0';
+.fauxcss .prop::after {
+    content: ':\20';
     color: var(--white);
 }
 
-/* VALUE */
+/* VALUES */
 
-.fauxcss__val {
+.fauxcss .val {
     color: var(--orange);
 }
 
-.fauxcss__val + .fauxcss__val::before {
-    color: var(--white);
+.fauxcss .val + .val::before {
     content: ',\20';
-    text-decoration: none;
+    color: var(--white);
 }
 
-/* LINK */
-.fauxcss__link {
+.fauxcss .val--link {
     color: var(--green);
+}
+
+.fauxcss .val--link::before {
+    display: inline-block;
 }
 
 /* IMPORTANT */
 
-.fauxcss__important {
+.fauxcss .important {
     color: var(--tan);
 }
 
-.fauxcss__important::before {
-    content: '\a0!';
+.fauxcss .important::before {
+    content: '\20!';
 }
 
 /* SQUARES */
