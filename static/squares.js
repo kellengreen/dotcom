@@ -1,115 +1,144 @@
- /**
-  * Name:   Squares Background
-  * Author: Kellen Green
-  */
-
-class SquareElem {
-     /**
-      * SquareElem
-      */
-     constructor() {
-         this.elem = document.createElement('div');
-         this.elem.classList.add(SquareElem.baseClass);
-         this.elem.classList.add(SquareElem.colorClasses[SquareElem.randInt(0, SquareElem.colorClasses.length - 1)]);
-     }
-
-     static randFloat(min, max) {
-         return Math.random() * (max - min) + min;
-     }
-
-     static randInt(min, max) {
-         return Math.floor(Math.random() * (max - min + 1)) + min;
-     }
-
-     fallingAnimation(windowWidth, windowHeight) {
-         const rotateX = Math.random(),
-               rotateY = Math.random(),
-               rotateZ = Math.random(),
-               rotateA = SquareElem.randFloat(SquareElem.minRotate, SquareElem.maxRotate),
-               scale = SquareElem.randFloat(SquareElem.minScale, SquareElem.maxScale),
-               translateX = windowWidth * Math.random(),
-               translateY = windowHeight + SquareElem.overscan,
-               duration = SquareElem.randFloat(SquareElem.minDuration, SquareElem.maxDuration),
-               transformStart = `translate(${translateX}px, -${SquareElem.overscan}px) scale(${scale}) rotate3d(0, 0, 0, 0deg)`,
-               transformEnd =   `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
-         return this.elem.animate([
-             {transform: transformStart, opacity: 1},
-             {transform: transformEnd, opacity: 1},
-         ], {
-             duration: duration,
-             iterations: Infinity,
-         });
-     }
-
-     fadeAnimation() {
-        return this.elem.animate([
-             {opacity: 1},
-             {opacity: 0},
-        ], {duration: 1000});
-     }
-}
-
-SquareElem.overscan = 30;
-SquareElem.minScale = .5;
-SquareElem.maxScale = 1;
-SquareElem.minRotate = 500;
-SquareElem.maxRotate = 1000;
-SquareElem.minDuration = 6000;
-SquareElem.maxDuration = 20000;
-SquareElem.baseClass = 'square';
-SquareElem.colorClasses = ['red', 'blue', 'green', 'yellow'];
-
-class SquareContainer {
+class Squares {
     /**
-     * SquareContainer
+     * Squares Background
+     * @author Kellen Green
      */
     constructor() {
-        this.elem = document.createElement('div');
-        this.elem.classList.add(SquareContainer.baseClass);
-        document.body.appendChild(this.elem);
+        this.viewportWidth = 0;
+        this.viewportHeight = 0;
+        this.targetChildren = 0;
+        this.activeChildren = new Set();
+        this.inactiveChildren = new Set();
 
-        this.initAnimations();
-        window.addEventListener('resize', this.debounce(this.resize, 100));
+        this.container = document.createElement('div');
+        this.container.classList.add('squares');
+        document.body.appendChild(this.container);
+
+        this.createChildren();
+        window.addEventListener('resize', this.createChildren.bind(this));
     }
 
-    debounce(fn, delay) {
-        let timeout;
-        return (...args) => {
-            if (timeout) {
-                clearTimeout(timeout);
+    get widthPerChild() { return 10 };
+    get minScale()      { return 0.5 };
+    get maxScale()      { return 1.0 };
+    get minRotate()     { return 500 };
+    get maxRotate()     { return 1000 };
+    get minGravity()    { return 0.040 };
+    get maxGravity()    { return 0.120 };
+    get minOpacity()    { return 0.0 };
+    get maxOpacity()    { return 0.5 };
+
+    /**
+     * Returns a pseudo random floating point number between two values.
+     * @param {float} min - Low range value inclusive.
+     * @param {float} max - High range value exclusive.
+     * @returns {float}
+     */
+    randFloat(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    /**
+     * Create child elements and starts animations.
+     * @returns {undefined}
+     */
+    createChildren() {
+        // Set viewport dimension specific properties.
+        this.viewportWidth = window.innerWidth;
+        this.viewportHeight = window.innerHeight;
+        this.targetChildren = Math.floor(this.viewportWidth / this.widthPerChild);
+
+        // Set hasResized to true for active elements
+        for (const elem of this.activeChildren.values()) {
+            elem.$hasResized = true;
+        }
+
+        // Create more children as needed
+        const iter = this.inactiveChildren[Symbol.iterator]();
+        while (this.activeChildren.size < this.targetChildren) {
+            let elem = iter.next().value;
+
+            // create new element if none available
+            if (elem === undefined) {
+                elem = document.createElement('div');
+                this.container.appendChild(elem);
             }
-            timeout = setTimeout(() => {
-                timeout = null;
-                fn.apply(this, args);
-            }, delay);
+            
+            // otherwise remove the previous element from inactive
+            else {
+                this.inactiveChildren.delete(elem);
+            }
+
+            this.activeChildren.add(elem);
+            this.createAnimation(elem);
+        }
+    }
+
+    /**
+     * Creates an animation for a child element.
+     * @param {HTMLElement} elem - Element to be animated.
+     * @returns {undefined}
+     */
+    createAnimation(elem) {
+        const rotateX = Math.random();
+        const rotateY = Math.random();
+        const rotateZ = Math.random();
+        const rotateA = this.randFloat(this.minRotate, this.maxRotate);
+        const scale = this.randFloat(this.minScale, this.maxScale);
+        const translateX = this.viewportWidth * Math.random();
+        const translateY = this.viewportHeight;
+        const duration = translateY / this.randFloat(this.minGravity, this.maxGravity);
+        const transformStart = `
+            translate(${translateX}px, 0)
+            scale(${scale})
+            rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
+        const transformEnd = `
+            translate(${translateX}px, ${translateY}px)
+            scale(${scale})
+            rotate3d(0, 0, 0, 0deg)`;
+
+        const keyFrames = {
+            transform: [transformStart, transformEnd],
+            opacity: [this.maxOpacity, this.minOpacity],
         };
+
+        const options = {
+            duration: duration,
+            iterations: 1,
+        };
+
+        const animation = elem.animate(keyFrames, options);
+        elem.$hasResized = false;
+        animation.onfinish = () => {
+            this.finishedAnimation(animation, elem);
+        }
     }
 
-    resize() {
-        this.squareElems.forEach(squareElem => {
-            squareElem.fadeAnimation().onfinish = () => {
-                this.elem.removeChild(squareElem.elem);
-            };
-        });
-        this.initAnimations();
-    }
+    /**
+     * Callback when an animation has finished.
+     * @param {Animation} animation
+     * @param {HTMLElement} elem
+     * @returns {undefined}
+     */
+    finishedAnimation(animation, elem) {
+        // has resize occured since last animation
+        if (elem.$hasResized === true) {
 
-    initAnimations() {
-        const currentWindowWidth = window.innerWidth,
-              currentWindowHeight = window.innerHeight,
-              targetSquareCount = currentWindowWidth / SquareContainer.pxPerSquare;
-
-        this.squareElems = [];
-        for (let i = 0; i < targetSquareCount; i++) {
-            const squareElem = new SquareElem();
-            squareElem.fallingAnimation(currentWindowWidth, currentWindowHeight);
-            this.squareElems.push(squareElem);
-            this.elem.appendChild(squareElem.elem);
+            // remove children from active pool if overcrowded
+            if (this.activeChildren.size > this.targetChildren) {
+                this.activeChildren.delete(elem);
+                this.inactiveChildren.add(elem);
+            }
+            // create new animation
+            else {
+                this.createAnimation(elem);
+            }
+        } 
+        // replay animation
+        else {
+            animation.play();
         }
     }
 }
 
-SquareContainer.pxPerSquare = 12;
-SquareContainer.baseClass = 'squares';
-
-new SquareContainer();
+new Squares();

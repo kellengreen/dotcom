@@ -1,6 +1,16 @@
-/*
- * GLOBAL
- */
+/* VARIABLES */
+:root {
+    --white: hsl(0, 0%, 100%);
+    --lime: hsl(67, 73%, 54%);
+    --blue: hsl(218, 100%, 74%);
+    --red: hsl(0, 59%, 57%);
+    --black: hsl(0, 0%, 12%);
+    --orange: hsl(47, 100%, 50%);
+    --green: hsl(89, 43%, 49%);
+    --tan: hsl(30, 75%, 75%);
+}
+
+/* RESETS */
 
 * {
     margin: 0;
@@ -8,170 +18,158 @@
     box-sizing: border-box;
 }
 
-html {
-    background: hsl(0, 0%, 8%);
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 1em;
 }
 
 body {
-    color: #FFF;
-    font: 1.125rem/2 'Courier New', Courier, monospace;
+    background-color: var(--black);
 }
 
-h3 {
-    font-size: 1em;
-    font-weight: normal;
-}
-
-/*
- * MAIN
- */
+/* MAIN */
 
 .main {
     padding: 3.125rem;
 }
 
-/*
- * NOTE
- */
+/* FAUXCSS */
 
-.note {
-    color: #CCDF32;
+.fauxcss {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.125rem;
+    line-height: 2;
+    color: var(--white);
 }
 
-.note:before {
-    content: '/* ';
- }
-
-.note:after {
-    content: ' \00a0*/';
+.fauxcss *::before,
+.fauxcss *::after {
+    white-space: pre;
 }
 
-.note > *:before {
-    content: '\00a0*\00a0';
+/* COMMENT */
+
+.fauxcss .comment {
+    color: var(--lime);
 }
 
-/*
- * BLOCK
- */
-
-.block:after {
-    content: '}';
+.fauxcss .comment:first-child::before { 
+    content: '/*\a\20*\20';
 }
 
-/*
- * SELECTOR
- */
-
-.selector {
-    color: #D25252;
+.fauxcss .comment:not(:first-child):before {
+    content: '\20*\20';
 }
 
-.selector:before {
+.fauxcss .comment:last-child::after {
+    content: '\a\20*/';
+}
+
+/* SELECTOR */
+
+.fauxcss .selector {
+    color: var(--red);
+}
+
+.fauxcss .selector::before {
     content: '.';
-    color: #FFF;
+    color: var(--white);
+}
+.fauxcss .selector::after {
+    content: '\20{';
+    color: var(--white);
 }
 
-.selector:after {
-    content: ' {';
-    color: #FFF;
+/* RULE */
+
+.fauxcss .rule::before {
+    content: '\20\20\20\20';
 }
 
-/*
- * RULE
- */
-
-.rule {
-    margin-left: 3.125rem;
-}
-
-.rule:after {
+.fauxcss .rule::after {
     content: ';';
 }
 
-/*
- * PROPERTY
- */
-
-.prop {
-    color: #79ABFF;
+.fauxcss .rule:last-child::after {
+    content: ';\a}';
 }
 
-.prop:after {
-    content: ':\00a0';
-    color: #FFF;
+/* PROPERTIES */
+
+.fauxcss .prop {
+    color: var(--blue);
 }
 
-/*
- * VALUE
- */
-
-.val {
-    color: #FFC600;
+.fauxcss .prop::after {
+    content: ':\20';
+    color: var(--white);
 }
 
-a.val {
-    text-decoration: none;
-    color: #7FB347;
+/* VALUES */
+
+.fauxcss .val {
+    color: var(--orange);
 }
 
-a.val:hover {
-    text-decoration: underline;
+.fauxcss .val + .val::before {
+    content: ',\20';
+    color: var(--white);
 }
 
-a.val:before,
-a.val:after {
-    content: '"';
+.fauxcss .val--link {
+    color: var(--green);
 }
 
-/*
- * IMPORTANT
- */
-
-.important {
-    color: #EFC090;
+.fauxcss .val--link::before {
+    display: inline-block;
 }
 
-.important:before {
-    content: '\00a0!';
+/* IMPORTANT */
+
+.fauxcss .important {
+    color: var(--tan);
 }
 
-/*
- * SQUARES
- */
+.fauxcss .important::before {
+    content: '\20!';
+}
+
+/* SQUARES */
 
 .squares {
-    overflow: hidden;
     position: fixed;
+    overflow: hidden;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    bottom: 0;
+    right: 0;
     z-index: -1;
+    --size: 1.8rem;
 }
 
-.square {
-    display: block;
+.squares > * {
     position: absolute;
-    top: -1.6rem;
-    width: 1.6rem;
-    height: 1.6rem;
+    top: calc(var(--size) * -1);
+    left: calc(var(--size) / -2);
+    width: var(--size);
+    height: var(--size);
     border-radius: .125rem;
     border-width: .125rem;
     border-style: solid;
 }
 
-.square.red {
-    border-color: hsla(0, 59%, 57%, .5);
+.squares > *:nth-child(1n) {
+    border-color: var(--red);
 }
 
-.square.blue {
-    border-color: hsla(218, 100%, 74%, .5);
+.squares > *:nth-child(2n) {
+    border-color: var(--blue);
 }
 
-.square.yellow {
-    border-color: hsla(47, 100%, 50%, .5);
+.squares > *:nth-child(3n) {
+    border-color: var(--orange);
 }
 
-.square.green {
-    border-color: hsla(89, 43%, 49%, .5);
+.squares > *:nth-child(4n) {
+    border-color: var(--green);
 }
