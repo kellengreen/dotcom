@@ -144,30 +144,32 @@ body {
     bottom: 0;
     right: 0;
     z-index: -1;
+    --size: 1.8rem;
 }
 
 .squares > * {
     position: absolute;
-    top: -1.6rem;  
-    width: 1.6rem;
-    height: 1.6rem;
+    top: calc(var(--size) * -1);
+    left: calc(var(--size) / -2);
+    width: var(--size);
+    height: var(--size);
     border-radius: .125rem;
     border-width: .125rem;
     border-style: solid;
 }
 
-.squares > .red {
+.squares > *:nth-child(1n) {
     border-color: var(--red);
 }
 
-.squares > .blue {
+.squares > *:nth-child(2n) {
     border-color: var(--blue);
 }
 
-.squares > .yellow {
+.squares > *:nth-child(3n) {
     border-color: var(--orange);
 }
 
-.squares > .green {
+.squares > *:nth-child(4n) {
     border-color: var(--green);
 }

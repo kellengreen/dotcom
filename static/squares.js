@@ -1,131 +1,101 @@
 class Squares {
     /**
-     * Class:   Squares Background
-     * Author:  Kellen Green
+     * Squares Background
+     * @author Kellen Green
      */
     constructor() {
-        /**
-         *
-         */
-        this.container = this.makeContainer();
-        this.width = 0;
-        this.height = 0;
-        this.squareTarget= 0;
-        this.squareElems = new Map();
-        this.addSquares();
-        window.addEventListener('resize', this.debounce(this.addSquares, 250));
+        this.viewportWidth = 0;
+        this.viewportHeight = 0;
+        this.targetChildren = 0;
+        this.activeChildren = new Set();
+        this.inactiveChildren = new Set();
+
+        this.container = document.createElement('div');
+        this.container.classList.add('squares');
+        document.body.appendChild(this.container);
+
+        this.createChildren();
+        window.addEventListener('resize', this.createChildren.bind(this));
     }
 
-    get pxPerSquare()   { return 12 };
-    get overscan()      { return 30 };
-    get minScale()      { return .5 };
-    get maxScale()      { return 1 };
+    get widthPerChild() { return 10 };
+    get minScale()      { return 0.5 };
+    get maxScale()      { return 1.0 };
     get minRotate()     { return 500 };
     get maxRotate()     { return 1000 };
-    get minGravity()    { return .040 };
-    get maxGravity()    { return .125 };
-    get minOpacity()    { return .1 };
-    get maxOpacity()    { return .5 };
-    get colorClasses()  { return ['red', 'blue', 'green', 'yellow'] };
+    get minGravity()    { return 0.040 };
+    get maxGravity()    { return 0.120 };
+    get minOpacity()    { return 0.0 };
+    get maxOpacity()    { return 0.5 };
 
+    /**
+     * Returns a pseudo random floating point number between two values.
+     * @param {float} min - Low range value inclusive.
+     * @param {float} max - High range value exclusive.
+     * @returns {float}
+     */
     randFloat(min, max) {
-        /**
-         * Returns a pseudo random floating point number between two numbers.
-         */
         return Math.random() * (max - min) + min;
     }
 
-    randInt(min, max) {
-        /**
-         * Returns a pseudo random integer between two numbers.
-         */
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    /**
+     * Create child elements and starts animations.
+     * @returns {undefined}
+     */
+    createChildren() {
+        // Set viewport dimension specific properties.
+        this.viewportWidth = window.innerWidth;
+        this.viewportHeight = window.innerHeight;
+        this.targetChildren = Math.floor(this.viewportWidth / this.widthPerChild);
 
-    makeContainer() {
-        /**
-         *
-         */
-        const elem = document.createElement('div');
-        elem.classList.add('squares');
-        document.body.appendChild(elem);
-        return elem;
-    }
+        // Set hasResized to true for active elements
+        for (const elem of this.activeChildren.values()) {
+            elem.$hasResized = true;
+        }
 
-    setDimentions() {
-        /**
-         * Sets window dimension specific properties.
-         */
-        this.width = window.innerWidth;
-        this.height = window.innerHeight;
-        this.squareTarget = Math.floor(this.width / this.pxPerSquare);
-    }
+        // Create more children as needed
+        const iter = this.inactiveChildren[Symbol.iterator]();
+        while (this.activeChildren.size < this.targetChildren) {
+            let elem = iter.next().value;
 
-    debounce(fn, delay) {
-        /**
-         * Simple debounce function.
-         */
-        let timeout;
-        return () => {
-            if (timeout) {
-                clearTimeout(timeout);
+            // create new element if none available
+            if (elem === undefined) {
+                elem = document.createElement('div');
+                this.container.appendChild(elem);
             }
-            timeout = setTimeout(() => {
-                timeout = null;
-                fn.apply(this);
-            }, delay);
-        };
-    }
+            
+            // otherwise remove the previous element from inactive
+            else {
+                this.inactiveChildren.delete(elem);
+            }
 
-    addSquares() {
-        /**
-         * Start the animations
-         */
-        this.setDimentions();
-
-        // Set hasResized to true for previously created elements
-        for (const elem of this.squareElems.keys()) {
-            this.squareElems.set(elem, true);
-        }
-
-        while (this.squareElems.size < this.squareTarget) {
-            this.createSquare();
+            this.activeChildren.add(elem);
+            this.createAnimation(elem);
         }
     }
 
-    createSquare() {
-        /**
-         * Create square element
-         */
-        const elem = document.createElement('div');
-        const colorIdx = this.randInt(0, this.colorClasses.length - 1);
-        const colorClass = this.colorClasses[colorIdx];
-
-        elem.classList.add(colorClass);
-        this.container.appendChild(elem);
-        this.createAnimation(elem);
-    }
-
+    /**
+     * Creates an animation for a child element.
+     * @param {HTMLElement} elem - Element to be animated.
+     * @returns {undefined}
+     */
     createAnimation(elem) {
-        /**
-         *
-         */
         const rotateX = Math.random();
         const rotateY = Math.random();
         const rotateZ = Math.random();
         const rotateA = this.randFloat(this.minRotate, this.maxRotate);
         const scale = this.randFloat(this.minScale, this.maxScale);
-        const translateX = (this.width - this.overscan) * Math.random();
-        const translateY = this.height + this.overscan;
+        const translateX = this.viewportWidth * Math.random();
+        const translateY = this.viewportHeight;
         const duration = translateY / this.randFloat(this.minGravity, this.maxGravity);
         const transformStart = `
             translate(${translateX}px, 0)
             scale(${scale})
-            rotate3d(0, 0, 0, 0deg)`;
+            rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
         const transformEnd = `
             translate(${translateX}px, ${translateY}px)
             scale(${scale})
-            rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
+            rotate3d(0, 0, 0, 0deg)`;
 
         const keyFrames = {
             transform: [transformStart, transformEnd],
@@ -138,31 +108,33 @@ class Squares {
         };
 
         const animation = elem.animate(keyFrames, options);
-
-        this.squareElems.set(elem, false);
-
+        elem.$hasResized = false;
         animation.onfinish = () => {
-            this.finishedAnimation(elem, animation);
+            this.finishedAnimation(animation, elem);
         }
     }
 
-    finishedAnimation(elem, animation) {
-        /**
-         * Callback when animation has finished.
-         */
+    /**
+     * Callback when an animation has finished.
+     * @param {Animation} animation
+     * @param {HTMLElement} elem
+     * @returns {undefined}
+     */
+    finishedAnimation(animation, elem) {
+        // has resize occured since last animation
+        if (elem.$hasResized === true) {
 
-        // Too many elements
-        if (this.squareElems.size > this.squareTarget) {
-            elem.remove();
-            this.squareElems.delete(elem);
-        }
-
-        // Window resize since last animation
-        else if (this.squareElems.get(elem) === true) {
-            this.createAnimation(elem);
-        }
-
-        // Replate previous animation
+            // remove children from active pool if overcrowded
+            if (this.activeChildren.size > this.targetChildren) {
+                this.activeChildren.delete(elem);
+                this.inactiveChildren.add(elem);
+            }
+            // create new animation
+            else {
+                this.createAnimation(elem);
+            }
+        } 
+        // replay animation
         else {
             animation.play();
         }
