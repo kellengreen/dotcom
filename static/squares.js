@@ -10,12 +10,12 @@ class Squares {
         this.activeChildren = new Set();
         this.inactiveChildren = new Set();
 
-        this.container = document.createElement('div');
-        this.container.classList.add('squares');
+        this.container = document.createElement(`div`);
+        this.container.classList.add(`squares`);
         document.body.appendChild(this.container);
 
         this.createChildren();
-        window.addEventListener('resize', this.createChildren.bind(this));
+        window.addEventListener(`resize`, this.createChildren.bind(this));
     }
 
     get widthPerChild() { return 10 };
@@ -60,7 +60,7 @@ class Squares {
 
             // create new element if none available
             if (elem === undefined) {
-                elem = document.createElement('div');
+                elem = document.createElement(`div`);
                 this.container.appendChild(elem);
             }
             
