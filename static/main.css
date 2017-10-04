@@ -30,7 +30,7 @@ body {
 /* MAIN */
 
 .main {
-    padding: 3.125rem;
+    padding: 1.125rem;
 }
 
 /* FAUXCSS */
@@ -44,7 +44,7 @@ body {
 
 .fauxcss *::before,
 .fauxcss *::after {
-    white-space: pre;
+    white-space: pre-wrap;
 }
 
 /* COMMENT */
@@ -54,7 +54,7 @@ body {
 }
 
 .fauxcss .comment:first-child::before { 
-    content: '/*\a\20*\20';
+    content: '/*\0a\20*\20';
 }
 
 .fauxcss .comment:not(:first-child):before {
@@ -62,7 +62,7 @@ body {
 }
 
 .fauxcss .comment:last-child::after {
-    content: '\a\20*/';
+    content: '\0a\20*/';
 }
 
 /* SELECTOR */
@@ -91,7 +91,7 @@ body {
 }
 
 .fauxcss .rule:last-child::after {
-    content: ';\a}';
+    content: ';\0a}';
 }
 
 /* PROPERTIES */

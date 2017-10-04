@@ -15,7 +15,7 @@ class Squares {
         document.body.appendChild(this.container);
 
         this.createChildren();
-        window.addEventListener(`resize`, this.createChildren.bind(this));
+        window.addEventListener(`resize`, this.debounce(this.createChildren, 250, this));
     }
 
     get widthPerChild() { return 10 };
@@ -27,6 +27,25 @@ class Squares {
     get maxGravity()    { return 0.120 };
     get minOpacity()    { return 0.0 };
     get maxOpacity()    { return 0.5 };
+
+    /**
+     * Simple debounce function.
+     * @param {function} fn - Function to be called back.
+     * @param {number} delay - Milliseconds to wait before calling.
+     * @return {undefined}
+     */
+    debounce(fn, delay, bind) {
+        let timeout;
+        return (...args) => {
+            if (timeout) {
+                clearTimeout(timeout);
+            }
+            timeout = setTimeout(() => {
+                timeout = null;
+                fn.apply(bind, args);
+            }, delay);
+        };
+    }
 
     /**
      * Returns a pseudo random floating point number between two values.
