@@ -18,15 +18,14 @@ class Squares {
         window.addEventListener(`resize`, this.debounce(this.createChildren, 250, this));
     }
 
-    get widthPerChild() { return 10 };
-    get minScale()      { return 0.5 };
-    get maxScale()      { return 1.0 };
-    get minRotate()     { return 500 };
-    get maxRotate()     { return 1000 };
-    get minGravity()    { return 0.040 };
-    get maxGravity()    { return 0.120 };
-    get minOpacity()    { return 0.0 };
-    get maxOpacity()    { return 0.5 };
+    get pxWidthPerChild()   { return 12 };
+    get minScale()          { return 0.5 };
+    get maxScale()          { return 1.0 };
+    get minRotate()         { return 500 };
+    get maxRotate()         { return 1000 };
+    get minGravity()        { return 0.03 };
+    get maxGravity()        { return 0.12 };
+    get maxOpacity()        { return 0.4 };
 
     /**
      * Simple debounce function.
@@ -48,12 +47,12 @@ class Squares {
     }
 
     /**
-     * Returns a pseudo random floating point number between two values.
-     * @param {float} min - Low range value inclusive.
-     * @param {float} max - High range value exclusive.
-     * @returns {float}
+     * Returns a pseudo random number between two values.
+     * @param {number} min - Low range value inclusive.
+     * @param {number} max - High range value exclusive.
+     * @returns {number}
      */
-    randFloat(min, max) {
+    randBetween(min, max) {
         return Math.random() * (max - min) + min;
     }
 
@@ -65,7 +64,7 @@ class Squares {
         // Set viewport dimension specific properties.
         this.viewportWidth = window.innerWidth;
         this.viewportHeight = window.innerHeight;
-        this.targetChildren = Math.floor(this.viewportWidth / this.widthPerChild);
+        this.targetChildren = Math.floor(this.viewportWidth / this.pxWidthPerChild);
 
         // Set hasResized to true for active elements
         for (const elem of this.activeChildren.values()) {
@@ -102,11 +101,10 @@ class Squares {
         const rotateX = Math.random();
         const rotateY = Math.random();
         const rotateZ = Math.random();
-        const rotateA = this.randFloat(this.minRotate, this.maxRotate);
-        const scale = this.randFloat(this.minScale, this.maxScale);
+        const rotateA = this.randBetween(this.minRotate, this.maxRotate);
+        const scale = this.randBetween(this.minScale, this.maxScale);
         const translateX = this.viewportWidth * Math.random();
         const translateY = this.viewportHeight;
-        const duration = translateY / this.randFloat(this.minGravity, this.maxGravity);
         const transformStart = `
             translate(${translateX}px, 0)
             scale(${scale})
@@ -115,12 +113,13 @@ class Squares {
             translate(${translateX}px, ${translateY}px)
             scale(${scale})
             rotate3d(0, 0, 0, 0deg)`;
-
+        
         const keyFrames = {
             transform: [transformStart, transformEnd],
-            opacity: [this.maxOpacity, this.minOpacity],
+            opacity: [this.maxOpacity, 0],
         };
-
+        
+        const duration = translateY / this.randBetween(this.minGravity, this.maxGravity);
         const options = {
             duration: duration,
             iterations: 1,
