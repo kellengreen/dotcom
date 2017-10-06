@@ -26,7 +26,7 @@ body {
 /* FAUXCSS */
 
 .fauxcss {
-    margin: 2vw;
+    margin: 3vw;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.125rem;
     line-height: 2;
@@ -82,7 +82,7 @@ body {
 
 .declar::before {
     content: '';
-    margin-left: 4vw;
+    margin-left: 3vw;
 }
 
 .declar::after {
