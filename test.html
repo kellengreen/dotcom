@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .a {
+            border: 5px solid black;
+            width: 25vw;
+            height: 25vh;
+            transition: transform 1s linear;
+            transform: rotate3d(0, 0, 0, 0deg);
+        }
+        body:hover .a {
+            transform: rotate3d(0, 0, 1, 450deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="a"></div>
+</body>
+</html>

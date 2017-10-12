@@ -98,21 +98,26 @@ class Squares {
      * @returns {undefined}
      */
     createAnimation(elem) {
-        const rotateX = Math.random();
-        const rotateY = Math.random();
-        const rotateZ = Math.random();
-        const rotateA = this.randBetween(this.minRotate, this.maxRotate);
+        const translateY = this.viewportHeight;
         const scale = this.randBetween(this.minScale, this.maxScale);
         const translateX = this.viewportWidth * Math.random();
-        const translateY = this.viewportHeight;
+        const rotateX = this.randBetween(this.minRotate, this.maxRotate);
+        const rotateY = this.randBetween(this.minRotate, this.maxRotate);
+        const rotateZ = this.randBetween(this.minRotate, this.maxRotate);
         const transformStart = `
-            translate(${translateX}px, 0)
+            translateX(${translateX}px)
+            translateY(0)
             scale(${scale})
-            rotate3d(${rotateX}, ${rotateY}, ${rotateZ}, ${rotateA}deg)`;
+            rotateX(${rotateX}deg)
+            rotateY(${rotateY}deg)
+            rotateZ(${rotateZ}deg)`;
         const transformEnd = `
-            translate(${translateX}px, ${translateY}px)
+            translateX(${translateX}px)
+            translateY(${translateY}px)
             scale(${scale})
-            rotate3d(0, 0, 0, 0deg)`;
+            rotateX(0)
+            rotateY(0)
+            rotateZ(0)`;
         
         const keyFrames = {
             transform: [transformStart, transformEnd],
