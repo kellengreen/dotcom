@@ -26,7 +26,7 @@ body {
 /* FAUXCSS */
 
 .fauxcss {
-    margin: 3vw;
+    margin: 4vw;
     font-family: 'Courier New', Courier, monospace;
     font-size: 1.125rem;
     line-height: 2;
@@ -39,7 +39,7 @@ body {
     color: var(--lime);
 }
 
-.fauxcss .comment::before { 
+.fauxcss .comment::before {
     content: '/*\20';
     white-space: pre-wrap;
 }
@@ -81,8 +81,8 @@ body {
 /* DECLARATIONS */
 
 .fauxcss .declar::before {
-    content: '';
-    margin-left: 3vw;
+    content: '\20\20\20';
+    white-space: pre-wrap;
 }
 
 .fauxcss .declar::after {
@@ -137,7 +137,7 @@ body {
     width: 100vw;
     overflow: hidden;
     z-index: -1;
-    --size: 1.8rem;
+    --size: 1.75rem;
 }
 
 .squares > * {
