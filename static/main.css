@@ -33,7 +33,7 @@ body {
     color: var(--white);
 }
 
-/* COMMENTS */
+/* COMMENT BLOCK */
 
 .fauxcss .comment {
     color: var(--lime);
@@ -49,7 +49,7 @@ body {
     white-space: pre-wrap;
 }
 
-/* COMMENT LINES */
+/* COMMENT LINE */
 
 .fauxcss .line::before {
     content: '\20*\20';
@@ -62,7 +62,7 @@ body {
     content: '}';
 }
 
-/* SELECTOR */
+/* SELECTOR BLOCK */
 
 .fauxcss .selector {
     color: var(--red);
@@ -78,7 +78,7 @@ body {
     color: var(--white);
 }
 
-/* DECLARATIONS */
+/* DECLARATION */
 
 .fauxcss .declar::before {
     content: '\20\20\20';
@@ -89,7 +89,7 @@ body {
     content: ';';
 }
 
-/* PROPERTIES */
+/* PROPERTY*/
 
 .fauxcss .prop {
     color: var(--blue);
@@ -137,18 +137,30 @@ body {
     width: 100vw;
     overflow: hidden;
     z-index: -1;
-    --size: 1.75rem;
 }
 
 .squares > * {
+    --size: 1.75rem;
+    --duration: 0s;
+    --scale: 1;
+    --tx: 0;
+    --rx: 0;
+    --ry: 0;
+    --rz: 0;
+    --ra: 0deg;
     position: absolute;
-    top: calc(var(--size) * -1);
-    left: calc(var(--size) / -2);
+    top: 0;
+    left: 0;
     width: var(--size);
     height: var(--size);
     border-radius: .125rem;
     border-width: .125rem;
     border-style: solid;
+    border-color: var(--color);
+    animation-name: square;
+    animation-duration: var(--duration);
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
 .squares > *:nth-child(1n) {
@@ -165,4 +177,23 @@ body {
 
 .squares > *:nth-child(4n) {
     border-color: var(--green);
+}
+
+@keyframes square {
+    from {
+        opacity: 0.5;
+        transform: 
+            translate3d(calc(var(--tx) + var(--size) / -2), calc(-1 * var(--size)), 0)
+            rotate3d(var(--rx), var(--ry), var(--rz), var(--ra))
+            scale(var(--scale))
+        ;
+    }
+    to {
+        opacity: 0;
+        transform: 
+            translate3d(calc(var(--tx) + var(--size) / -2), calc(100vh), 0)
+            rotate3d(0, 0, 0, 0deg)
+            scale(var(--scale))
+        ;
+    }
 }
