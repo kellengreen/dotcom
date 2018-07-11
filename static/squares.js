@@ -11,13 +11,14 @@ class Squares {
         window.addEventListener('resize', this.debounce(this.createChildren, 200, this))
     }
 
-    get widthPerChild()     { return 12 }
+    get pxPerChild()        { return 10000 }
+    get maxChildren()       { return 200 }
     get minScale()          { return 0.5 }
     get maxScale()          { return 1.0 }
-    get minRotate()         { return 500 }
-    get maxRotate()         { return 1500 }
-    get minGravity()        { return 50 }
-    get maxGravity()        { return 125 }
+    get minRotate()         { return 25 }
+    get maxRotate()         { return 100 }
+    get minGravity()        { return 25 }
+    get maxGravity()        { return 100 }
 
     /**
      * Simple debounce function.
@@ -57,7 +58,7 @@ class Squares {
         // Set viewport dimension specific properties.
         const viewportWidth =  window.innerWidth
         const viewportHeight = window.innerHeight
-        const targetChildren = viewportWidth / this.widthPerChild
+        const targetChildren = Math.min(viewportWidth * viewportHeight / this.pxPerChild, this.maxChildren)
 
         // Remove unnecessary children.
         while (this.container.children.length > targetChildren) {
@@ -71,13 +72,14 @@ class Squares {
 
         // Set child styles.
         for (let i = 0, elem; elem = this.container.children[i]; i++) {
+            const duration = viewportHeight / this.randBetween(this.minGravity, this.maxGravity);
             elem.style.setProperty('--tx', `${viewportWidth * Math.random()}px`)
             elem.style.setProperty('--rx', this.randBetween(-1, 1))
             elem.style.setProperty('--ry', this.randBetween(-1, 1))
             elem.style.setProperty('--rz', this.randBetween(-1, 1))
-            elem.style.setProperty('--ra', `${this.randBetween(this.minRotate, this.maxRotate)}deg`)
+            elem.style.setProperty('--ra', `${this.randBetween(this.minRotate, this.maxRotate) * duration}deg`)
             elem.style.setProperty('--scale', this.randBetween(this.minScale, this.maxScale))
-            elem.style.setProperty('--duration', `${viewportHeight / this.randBetween(this.minGravity, this.maxGravity)}s`)
+            elem.style.setProperty('--duration', `${duration}s`)
         }
     }
 }

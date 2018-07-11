@@ -157,7 +157,8 @@ body {
     border-width: .125rem;
     border-style: solid;
     border-color: var(--color);
-    animation-name: square;
+    opacity: 0.5;
+    animation-name: fall;
     animation-duration: var(--duration);
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -179,9 +180,8 @@ body {
     border-color: var(--green);
 }
 
-@keyframes square {
+@keyframes fall {
     from {
-        opacity: 0.5;
         transform: 
             translate3d(calc(var(--tx) + var(--size) / -2), calc(-1 * var(--size)), 0)
             rotate3d(var(--rx), var(--ry), var(--rz), var(--ra))
@@ -189,10 +189,9 @@ body {
         ;
     }
     to {
-        opacity: 0;
         transform: 
             translate3d(calc(var(--tx) + var(--size) / -2), calc(100vh), 0)
-            rotate3d(0, 0, 0, 0deg)
+            rotate3d(var(--rx), var(--ry), var(--rz), 0deg)
             scale(var(--scale))
         ;
     }
