@@ -59,7 +59,8 @@ class Squares {
         const viewportWidth =  window.innerWidth
         const viewportHeight = window.innerHeight
         const targetChildren = Math.min(viewportWidth * viewportHeight / this.pxPerChild, this.maxChildren)
-
+        console.log(`${viewportWidth}x${viewportHeight}=${Math.floor(targetChildren)}`)
+        
         // Remove unnecessary children.
         while (this.container.children.length > targetChildren) {
             this.container.removeChild(this.container.lastElementChild)

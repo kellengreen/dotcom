@@ -1,0 +1,12 @@
+{
+  "name": "dotcom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  },
+  "scripts": {
+    "deploy": "echo \"Error: no test specified\" && exit 1",
+    "server": "http-server -c-1"
+  }
+}
