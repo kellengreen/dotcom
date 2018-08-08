@@ -1,7 +1,6 @@
 {
   "name": "dotcom",
   "version": "1.0.0",
-  "main": "index.js",
   "devDependencies": {
     "http-server": "^0.11.1"
   },

@@ -4,9 +4,22 @@ class Squares {
      * @author Kellen Green
      */
     constructor() {
+
+        this.prevWidth = 0
+        this.prevHeight = 0
+
         this.container = document.createElement('div')
         this.container.classList.add('squares')
         document.body.appendChild(this.container)
+
+        const style = getComputedStyle(document.body)
+        this.colors = [
+            style.getPropertyValue('--lime'),
+            style.getPropertyValue('--red'),
+            style.getPropertyValue('--blue'),
+            style.getPropertyValue('--orange'),
+        ]
+
         this.createChildren()
         window.addEventListener('resize', this.debounce(this.createChildren, 200, this))
     }
@@ -56,10 +69,14 @@ class Squares {
      */
     createChildren() {
         // Set viewport dimension specific properties.
-        const viewportWidth =  window.innerWidth
-        const viewportHeight = window.innerHeight
-        const targetChildren = Math.min(viewportWidth * viewportHeight / this.pxPerChild, this.maxChildren)
-        console.log(`${viewportWidth}x${viewportHeight}=${Math.floor(targetChildren)}`)
+        const currentWidth =  window.innerWidth
+        const currentHeight = window.innerHeight
+
+        // if (this.prevHeight !== 0) {
+        //     return
+        // }
+
+        const targetChildren = Math.min(currentWidth * currentHeight / this.pxPerChild, this.maxChildren)
         
         // Remove unnecessary children.
         while (this.container.children.length > targetChildren) {
@@ -73,8 +90,8 @@ class Squares {
 
         // Set child styles.
         for (let i = 0, elem; elem = this.container.children[i]; i++) {
-            const duration = viewportHeight / this.randBetween(this.minGravity, this.maxGravity);
-            elem.style.setProperty('--tx', `${viewportWidth * Math.random()}px`)
+            const duration = currentHeight / this.randBetween(this.minGravity, this.maxGravity)
+            elem.style.setProperty('--tx', `${currentWidth * Math.random()}px`)
             elem.style.setProperty('--rx', this.randBetween(-1, 1))
             elem.style.setProperty('--ry', this.randBetween(-1, 1))
             elem.style.setProperty('--rz', this.randBetween(-1, 1))
@@ -82,6 +99,30 @@ class Squares {
             elem.style.setProperty('--scale', this.randBetween(this.minScale, this.maxScale))
             elem.style.setProperty('--duration', `${duration}s`)
         }
+
+        this.prevWidth = currentWidth
+        this.prevHeight = currentHeight
+    }
+
+    /**
+     * 
+     */
+    resize() {
+        
+    }
+
+    /**
+     * 
+     */
+    yChanged() {
+
+    }
+
+    /**
+     * 
+     */
+    xchanged() {
+
     }
 }
 
