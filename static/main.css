@@ -22,6 +22,11 @@ body {
     background-color: var(--black);
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+}
+
 /* FAUXCSS */
 
 .fauxcss {
@@ -32,36 +37,28 @@ body {
     color: var(--white);
 }
 
-/* COMMENT BLOCK */
+/* COMMENTS */
 
-.fauxcss .comment {
+.fauxcss .comment-block {
     color: var(--lime);
 }
 
-.fauxcss .comment::before {
-    content: '/*\20';
-    white-space: pre-wrap;
+.fauxcss .comment-block::before {
+    content: '/**';
+    white-space: pre;
 }
 
-.fauxcss .comment::after {
+.fauxcss .comment-block::after {
     content: '\20*/';
-    white-space: pre-wrap;
+    white-space: pre;
 }
 
-/* COMMENT LINE */
-
-.fauxcss .line::before {
+.fauxcss .comment-line::before {
     content: '\20*\20';
-    white-space: pre-wrap;
+    white-space: pre;
 }
 
-/* RULE BLOCK */
-
-.fauxcss .rule::after {
-    content: '}';
-}
-
-/* SELECTOR BLOCK */
+/* SELECTOR */
 
 .fauxcss .selector {
     color: var(--red);
@@ -73,57 +70,41 @@ body {
 }
 
 .fauxcss .selector::after {
-    content: '\a0{';
+    content: '\20{';
     color: var(--white);
 }
 
-/* DECLARATION */
+/* RULESET */
+
+.fauxcss .ruleset::after {
+    content: '}';
+}
+
+/* DECLARATIONS */
 
 .fauxcss .declar::before {
     content: '\20\20\20';
-    white-space: pre-wrap;
+    white-space: pre;
 }
 
 .fauxcss .declar::after {
     content: ';';
 }
 
-/* PROPERTY */
-
 .fauxcss .prop {
     color: var(--blue);
 }
-
-.fauxcss .prop::after {
-    content: ':\20';
-    color: var(--white);
-}
-
-/* VALUES */
 
 .fauxcss .val {
     color: var(--orange);
 }
 
-.fauxcss .val + .val::before {
-    content: ',\20';
-    color: var(--white);
-}
-
-/* URLS */
-
 .fauxcss .url {
     color: var(--green);
 }
 
-/* IMPORTANT RULE */
-
 .fauxcss .important {
     color: var(--tan);
-}
-
-.fauxcss .important::before {
-    content: '\20';
 }
 
 /* SQUARES */
