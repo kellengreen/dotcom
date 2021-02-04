@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">
+  <rect x="0" y="0" width="200" height="200" fill="hsl(67, 73%, 54%)" />
+  <rect x="200" y="0" width="200" height="200" fill="hsl(0, 59%, 57%)" />
+  <rect x="0" y="200" width="200" height="200" fill="hsl(218, 100%, 74%)" />
+  <rect x="200" y="200" width="200" height="200" fill="hsl(47, 100%, 50%)" />
+</svg>

@@ -1,170 +1,147 @@
-/* VARIABLES */
+/* GLOBAL */
 
 :root {
-    --white: hsl(0, 0%, 100%);
-    --lime: hsl(67, 73%, 54%);
-    --blue: hsl(218, 100%, 74%);
-    --red: hsl(0, 59%, 57%);
-    --black: hsl(0, 0%, 12%);
-    --orange: hsl(47, 100%, 50%);
-    --green: hsl(89, 43%, 49%);
-    --tan: hsl(30, 75%, 75%);
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 14%);
+  --red: hsl(0, 59%, 57%);
+  --blue: hsl(218, 100%, 74%);
+  --yellow: hsl(47, 100%, 50%);
+  --green-light: hsl(67, 73%, 54%);
+  --green: hsl(89, 43%, 49%);
+  --spacing-1: max(1rem, 4vw);
 }
 
-/* GENERIC */
-
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: var(--black);
+  font-size: 1.125rem;
+  line-height: 2;
+  font-family: 'Courier New', Courier, monospace;
+  background-color: var(--black);
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-size: inherit;
-    font-weight: inherit;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
 }
 
-/* FAUXCSS */
+/* SPACING */
 
-.fauxcss {
-    margin: 4vw;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.125rem;
-    line-height: 2;
-    color: var(--white);
+.m-1 {
+  margin: var(--spacing-1);
 }
 
-/* COMMENTS */
-
-.fauxcss .comment-block {
-    color: var(--lime);
+.ml-1 {
+  margin-left: var(--spacing-1);
 }
 
-.fauxcss .comment-block::before {
-    content: '/**';
-    white-space: pre;
+/* TEXT */
+
+.text-red {
+  color: var(--red);
 }
 
-.fauxcss .comment-block::after {
-    content: '\20*/';
-    white-space: pre;
+.text-blue {
+  color: var(--blue);
 }
 
-.fauxcss .comment-line::before {
-    content: '\20*\20';
-    white-space: pre;
+.text-green-light {
+  color: var(--green-light);
 }
 
-/* SELECTOR */
-
-.fauxcss .selector {
-    color: var(--red);
+.text-green {
+  color: var(--green);
 }
 
-.fauxcss .selector::before {
-    content: '.';
-    color: var(--white);
+.text-yellow {
+  color: var(--yellow);
 }
 
-.fauxcss .selector::after {
-    content: '\20{';
-    color: var(--white);
+/* YAML */
+
+.yaml-comment::before {
+  content: '#\20';
 }
 
-/* RULESET */
-
-.fauxcss .ruleset::after {
-    content: '}';
+.yaml-key::after {
+  content: ':';
+  color: var(--white);
 }
 
-/* DECLARATIONS */
-
-.fauxcss .declar::before {
-    content: '\20\20\20';
-    white-space: pre;
-}
-
-.fauxcss .declar::after {
-    content: ';';
-}
-
-.fauxcss .prop {
-    color: var(--blue);
-}
-
-.fauxcss .val {
-    color: var(--orange);
-}
-
-.fauxcss .url {
-    color: var(--green);
-}
-
-.fauxcss .important {
-    color: var(--tan);
+.yaml-item::before {
+  content: '-\20';
+  color: var(--white);
 }
 
 /* SQUARES */
 
 .squares {
-    position: fixed;
-    overflow: hidden;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
+  position: fixed;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .squares > * {
-    --size: 1.75rem;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: var(--size);
-    height: var(--size);
-    border-radius: .125rem;
-    border-width: .125rem;
-    border-style: solid;
-    opacity: 0.5;
-    animation-name: fall;
-    animation-duration: var(--duration);
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
+  --size: 2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 0.125rem;
+  border-width: 0.125rem;
+  border-style: solid;
+  opacity: 0.5;
+  animation-name: fall;
+  animation-duration: var(--duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .squares > *:nth-child(1n) {
-    border-color: var(--red);
+  border-color: var(--red);
 }
 
 .squares > *:nth-child(2n) {
-    border-color: var(--blue);
+  border-color: var(--blue);
 }
 
 .squares > *:nth-child(3n) {
-    border-color: var(--orange);
+  border-color: var(--yellow);
 }
 
 .squares > *:nth-child(4n) {
-    border-color: var(--green);
+  border-color: var(--green);
 }
 
 @keyframes fall {
-    from {
-        transform: 
-            translate3d(calc(var(--tx) + var(--size) / -2), calc(var(--size) * -1), 0)
-            rotate3d(var(--rx), var(--ry), var(--rz), var(--ra))
-            scale(var(--scale))
-        ;
-    }
-    to {
-        transform: 
-            translate3d(calc(var(--tx) + var(--size) / -2), calc(var(--size) + 100vh), 0)
-            rotate3d(var(--rx), var(--ry), var(--rz), 0deg)
-            scale(var(--scale))
-        ;
-    }
+  from {
+    transform: translate3d(
+        calc(var(--tx) + var(--size) / -2),
+        calc(var(--size) * -1),
+        0
+      )
+      rotate3d(var(--rx), var(--ry), var(--rz), var(--ra)) scale(var(--scale));
+  }
+  to {
+    transform: translate3d(
+        calc(var(--tx) + var(--size) / -2),
+        calc(var(--size) + 100vh),
+        0
+      )
+      rotate3d(var(--rx), var(--ry), var(--rz), 0deg) scale(var(--scale));
+  }
 }

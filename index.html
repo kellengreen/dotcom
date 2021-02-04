@@ -1,45 +1,85 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <title>Kellen Green</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="static/favicon-16.png" sizes="16x16">
-    <link rel="icon" href="static/favicon-32.png" sizes="32x32">
-    <link rel="stylesheet" href="static/main.css">
-    <!-- <script defer src="static/squares.js"></script> -->
-</head>
-<body>
-    <div class="fauxcss">
-
-        <div class="comments-block">
-            <p class="comment-line">Well howdy stranger!</p>
-            <p class="comment-line">Allow me to introduce myself.</p>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/static/icon.svg" />
+    <link rel="stylesheet" href="/static/main.css" />
+    <script defer src="/static/squares.js"></script>
+  </head>
+  <body>
+    <div class="m-1">
+      <header>
+        <p class="text-green-light yaml-comment">Well howdy stranger!</p>
+        <p class="text-green-light yaml-comment">
+          Allow me to introduce myself.
+        </p>
+      </header>
+      <main>
+        <h2 class="text-red yaml-key">about</h2>
+        <div class="ml-1">
+          <p>
+            <span class="text-blue yaml-key">name</span>
+            <span class="text-yellow">Kellen Green</span>
+          </p>
+          <p>
+            <span class="text-blue yaml-key">occupation</span>
+            <span class="text-yellow">Software Engineer</span>
+          </p>
+          <p>
+            <span class="text-blue yaml-key">employer</span>
+            <a class="text-green" href="https://www.splunk.com/">Splunk</a>
+          </p>
+          <p>
+            <span class="text-blue yaml-key">residency</span>
+            <span class="text-yellow">London</span>
+          </p>
+          <p>
+            <span class="text-blue yaml-key">bachelorette</span>
+            <span class="text-yellow">Gonzaga University</span>
+          </p>
+          <p>
+            <span class="text-blue text-pseudo-white yaml-key">contact</span>
+            <a class="text-green" href="mailto:me@kellengreen.com"
+              >me@kellengreen.com</a
+            >
+          </p>
         </div>
 
-        <h2 class="selector">about</h2>
-        <div class="ruleset">
-            <p class="declar"><span class="prop">name</span>: <span class="val">Kellen Green</span></p>
-            <p class="declar"><span class="prop">occupation</span>: <span class="val">Software Engineer</span></p>
-            <p class="declar"><span class="prop">company</span>: <a class="url" href="https://www.splunk.com/">Splunk</a></p>
-            <p class="declar"><span class="prop">residency</span>: <span class="val">London, United Kingdom</span></p>
-            <p class="declar"><span class="prop">education</span>: <span class="val">Gonzaga University</span> <span class="important">!GoZags</span></p>
+        <h2 class="text-red yaml-key">talents</h2>
+        <div class="ml-1">
+          <h3 class="text-blue yaml-key">specialties</h3>
+          <div class="ml-1">
+            <p class="text-yellow yaml-item">CSS Wizard</p>
+            <p class="text-yellow yaml-item">JS Ninja</p>
+            <p class="text-yellow yaml-item">API Guru</p>
+          </div>
+
+          <h3 class="text-blue yaml-key">languages</h3>
+          <div class="ml-1">
+            <p class="text-yellow yaml-item">JavaScript</p>
+            <p class="text-yellow yaml-item">CSS</p>
+            <p class="text-yellow yaml-item">Go</p>
+            <p class="text-yellow yaml-item">Python</p>
+          </div>
+
+          <h3 class="text-blue yaml-key">storage</h3>
+          <div class="ml-1">
+            <p class="text-yellow yaml-item">DynamoDB</p>
+            <p class="text-yellow yaml-item">PostgreSQL</p>
+            <p class="text-yellow yaml-item">Cloud Datastore</p>
+            <p class="text-yellow yaml-item">Redis</p>
+          </div>
+
+          <h3 class="text-blue yaml-key">frameworks</h3>
+          <div class="ml-1">
+            <p class="text-yellow yaml-item">React</p>
+            <p class="text-yellow yaml-item">Django</p>
+          </div>
         </div>
-        
-        <h2 class="selector">talents</h2>
-        <div class="ruleset">
-            <p class="declar"><span class="prop">specialties</span>: <span class="val">CSS Wizard</span>, <span class="val">JS Ninja</span>, <span class="val">API Guru</span></p>
-            <p class="declar"><span class="prop">languages</span>: <span class="val">JavaScript</span>, <span class="val">Python</span>, <span class="val">Go</span>, <span class="val">CSS</span>, <span class="val">HTML</span></p>
-            <p class="declar"><span class="prop">storage</span>: <span class="val">Google Datastore</span>, <span class="val">DynamoDB</span>, <span class="val">BigQuery</span>, <span class="val">*SQL</span>, <span class="val">Redis</span></p>
-            <p class="declar"><span class="prop">frameworks</span>: <span class="val">Django</span>, <span class="val">Flask</span>, <span class="val">React</span>, <span class="val">Angular</span></p>
-            <p class="declar"><span class="prop">talks</span>: <a class="url" href="https://youtu.be/19kh3KlT9xw">conf18</a>, <a class="url" href="https://youtu.be/vo900c8nmKs">conf17</a></p>
-        </div>
-        
-        <h2 class="selector">contact</h2>
-        <div class="ruleset">
-            <p class="declar"><span class="prop">email</span>: <a class="url" href="mailto:me@kellengreen.com">me@kellengreen.com</a></p>
-            <p class="declar"><span class="prop">social</span>: <a class="url" href="https://github.com/kellengreen">GitHub</a>, <a class="url" href="https://www.linkedin.com/in/kgreen747">LinkedIn</a></p>
-        </div>
+      </main>
     </div>
-</body>
+    <div class="squares"></div>
+  </body>
 </html>
