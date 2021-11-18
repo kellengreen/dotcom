@@ -1,27 +1,26 @@
 /* GLOBAL */
 
 :root {
-  --white: hsl(0, 0%, 100%);
-  --black: hsl(0, 0%, 10%);
-  --red: hsl(0, 60%, 60%);
-  --blue: hsl(218, 100%, 74%);
-  --yellow: hsl(47, 100%, 50%);
-  --green-light: hsl(67, 73%, 54%);
-  --green: hsl(89, 43%, 49%);
+  --white: 0 0% 90%;
+  --black: 0 0% 10%;
+  --red: 0 60% 60%;
+  --blue: 218 100% 74%;
+  --yellow: 47 100% 50%;
+  --green: 89 43% 49%;
+  --lime: 67 73% 54%;
   --spacing-1: max(1rem, 4vw);
 }
 
 * {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
 body {
   font-size: 1.125rem;
   line-height: 2;
-  font-family: 'Courier New', Courier, monospace;
-  background-color: var(--black);
+  font-family: "Courier New", Courier, monospace;
+  background-color: hsl(var(--black));
 }
 
 h1,
@@ -47,101 +46,37 @@ h6 {
 /* TEXT */
 
 .text-red {
-  color: var(--red);
+  color: hsl(var(--red));
 }
 
 .text-blue {
-  color: var(--blue);
-}
-
-.text-green-light {
-  color: var(--green-light);
-}
-
-.text-green {
-  color: var(--green);
+  color: hsl(var(--blue));
 }
 
 .text-yellow {
-  color: var(--yellow);
+  color: hsl(var(--yellow));
+}
+
+.text-green {
+  color: hsl(var(--green));
+}
+
+.text-lime {
+  color: hsl(var(--lime));
 }
 
 /* YAML */
 
 .yaml-comment::before {
-  content: '#\20';
+  content: "#\20";
 }
 
 .yaml-key::after {
-  content: ':';
-  color: var(--white);
+  content: ":";
+  color: hsl(var(--white));
 }
 
 .yaml-item::before {
-  content: '-\20';
-  color: var(--white);
-}
-
-/* SQUARES */
-
-.squares {
-  position: fixed;
-  overflow: hidden;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.squares > * {
-  --size: 2rem;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--size);
-  height: var(--size);
-  border-radius: 0.125rem;
-  border-width: 0.125rem;
-  border-style: solid;
-  opacity: 0.5;
-  animation-name: fall;
-  animation-duration: var(--duration);
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-}
-
-.squares > *:nth-child(1n) {
-  border-color: var(--red);
-}
-
-.squares > *:nth-child(2n) {
-  border-color: var(--blue);
-}
-
-.squares > *:nth-child(3n) {
-  border-color: var(--yellow);
-}
-
-.squares > *:nth-child(4n) {
-  border-color: var(--green);
-}
-
-@keyframes fall {
-  from {
-    transform: translate3d(
-        calc(var(--tx) + var(--size) / -2),
-        calc(var(--size) * -1),
-        0
-      )
-      rotate3d(var(--rx), var(--ry), var(--rz), var(--ra)) scale(var(--scale));
-  }
-  to {
-    transform: translate3d(
-        calc(var(--tx) + var(--size) / -2),
-        calc(var(--size) + 100vh),
-        0
-      )
-      rotate3d(var(--rx), var(--ry), var(--rz), 0deg) scale(var(--scale));
-  }
+  content: "-\20";
+  color: hsl(var(--white));
 }
