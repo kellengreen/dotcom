@@ -1,4 +1,4 @@
-import { randFloat, randInt, randItem } from "./rand.js";
+import { randFloat, randItem } from "./rand.js";
 
 class BgManager {
   /**
@@ -155,7 +155,7 @@ if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
       return {
         radius: 5,
         vision: 100,
-        center: [randInt(0, size.width), randInt(0, size.height)],
+        center: [randFloat(0, size.width), randFloat(0, size.height)],
         vector: [randFloat(-1, 1), randFloat(-1, 1)],
         speed: randFloat(1, 2),
         color: randItem(colors),
