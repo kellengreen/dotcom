@@ -1,20 +1,19 @@
 import { randFloat, randInt, randItem } from "./rand.js";
 
-class AnimationManager {
+class BgManager {
   /**
    *
    */
-  constructor({ colors, density, speed }) {
+  constructor({ density, argsFn }) {
     this.canvas;
     this.ctx;
-    this.colors = colors;
-    this.density = density * 0.00001;
-    this.speed = speed;
+    this.objects = [];
     this.size = {
       width: 0,
       height: 0,
     };
-    this.objects = [];
+    this.density = density * 0.00001;
+    this.argsFn = argsFn;
 
     addEventListener("resize", this.setDimensions);
   }
@@ -27,6 +26,7 @@ class AnimationManager {
     this.canvas.style.position = "fixed";
     this.canvas.style.top = "0";
     this.canvas.style.left = "0";
+    this.canvas.style.zIndex = "-1";
     this.ctx = this.canvas.getContext("2d");
     this.setDimensions();
     document.body.appendChild(this.canvas);
@@ -57,17 +57,8 @@ class AnimationManager {
 
     const addCount = desiredCount - currentCount;
     for (let i = 0; i < addCount; i++) {
-      this.objects.push(
-        new AminationObject({
-          radius: 5,
-          x: randInt(0, this.canvas.width),
-          y: randInt(0, this.canvas.height),
-          vX: randFloat(-1, 1),
-          vY: randFloat(-1, 1),
-          speed: randFloat(...this.speed),
-          color: randItem(this.colors),
-        })
-      );
+      const obj = new AminationObject(this.argsFn(this.size));
+      this.objects.push(obj);
     }
 
     const removeCount = currentCount - desiredCount;
@@ -87,37 +78,36 @@ class AminationObject {
   /**
    *
    */
-  constructor({ x, y, vX, vY, radius, color, speed, vision = 10 }) {
-    this.x = x;
-    this.y = y;
-    this.vX = vX;
-    this.vY = vY;
+  constructor({ center, vector, radius, color, speed, vision }) {
+    this.center = center;
+    this.vector = vector;
     this.radius = radius;
     this.color = color;
     this.speed = speed;
     this.vision = vision;
+    this.lineWidth = [1, 5];
     this.neighbours = new Set();
   }
 
-  updatePosition(prop, slope, length) {
-    this[prop] += this[slope] * this.speed;
+  updatePosition(idx, length) {
+    this.center[idx] += this.vector[idx] * this.speed;
 
     // Too small
-    if (this[prop] <= -this.radius) {
-      this[prop] = length + this.radius;
+    if (this.center[idx] <= -this.radius) {
+      this.center[idx] = length + this.radius;
     }
     // Too big
-    else if (this[prop] >= length + this.radius) {
-      this[prop] = -this.radius;
+    else if (this.center[idx] >= length + this.radius) {
+      this.center[idx] = -this.radius;
     }
   }
 
   draw(ctx, size, others) {
-    this.updatePosition("x", "vX", size.width);
-    this.updatePosition("y", "vY", size.height);
+    this.updatePosition(0, size.width);
+    this.updatePosition(1, size.height);
 
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.arc(this.center[0], this.center[1], this.radius, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.fill();
 
@@ -125,14 +115,24 @@ class AminationObject {
       if (other === this) {
         continue;
       }
+      const dX = other.center[0] - this.center[0];
+      const dY = other.center[1] - this.center[1];
+      const d = Math.sqrt(dX ** 2 + dY ** 2);
+      const dM = this.vision + other.radius;
+      const dP = 1 - d / dM;
 
-      const x = Math.pow(other.x - this.x, 2);
-      const y = Math.pow(other.y - this.y, 2);
-      const d = Math.sqrt(x + y);
-      if (d <= this.radius * this.vision * 2) {
+      if (dP >= 0) {
+        const s1 = this.radius / d;
+        const s2 = 1 - s1;
+        const x3 = s1 * dX + this.center[0];
+        const y3 = s1 * dY + this.center[1];
+        const x4 = s2 * dX + this.center[0];
+        const y4 = s2 * dY + this.center[1];
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(other.x, other.y);
+        ctx.moveTo(x3, y3);
+        ctx.lineTo(x4, y4);
+        ctx.lineWidth =
+          (this.lineWidth[1] - this.lineWidth[0]) * dP + this.lineWidth[0];
         ctx.strokeStyle = this.color;
         ctx.stroke();
       }
@@ -143,17 +143,24 @@ class AminationObject {
 if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
   const style = getComputedStyle(document.body);
   const alpha = 0.5;
-  console.log(`'${style.getPropertyValue("--blue")}'`);
-
-  const manager = new AnimationManager({
+  const colors = [
+    `hsla(${style.getPropertyValue("--blue")} / ${alpha})`,
+    `hsla(${style.getPropertyValue("--yellow")} / ${alpha})`,
+    `hsla(${style.getPropertyValue("--red")} / ${alpha})`,
+    `hsla(${style.getPropertyValue("--lime")} / ${alpha})`,
+  ];
+  const manager = new BgManager({
     density: 5,
-    speed: [1, 2],
-    colors: [
-      `hsla(${style.getPropertyValue("--blue")} / ${alpha})`,
-      `hsla(${style.getPropertyValue("--yellow")} / ${alpha})`,
-      `hsla(${style.getPropertyValue("--red")} / ${alpha})`,
-      `hsla(${style.getPropertyValue("--lime")} / ${alpha})`,
-    ],
+    argsFn: (size) => {
+      return {
+        radius: 5,
+        vision: 100,
+        center: [randInt(0, size.width), randInt(0, size.height)],
+        vector: [randFloat(-1, 1), randFloat(-1, 1)],
+        speed: randFloat(1, 2),
+        color: randItem(colors),
+      };
+    },
   });
   manager.createCanvas();
   manager.draw();
