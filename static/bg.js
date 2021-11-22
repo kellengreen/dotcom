@@ -152,7 +152,7 @@ if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
     density: 5,
     createObject: (size) => {
       return new AminationObject({
-        radius: randInt(5, 20),
+        radius: randInt(5, 10),
         vision: 100,
         center: [randFloat(0, size.width), randFloat(0, size.height)],
         vector: [randFloat(-1, 1), randFloat(-1, 1)],
