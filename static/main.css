@@ -65,6 +65,11 @@ h6 {
   color: hsl(var(--lime));
 }
 
+.text-pseudo-white::before,
+.text-pseudo-white::after {
+  color: hsl(var(--white));
+}
+
 /* YAML */
 
 .yaml-comment::before {
@@ -73,10 +78,8 @@ h6 {
 
 .yaml-key::after {
   content: ":";
-  color: hsl(var(--white));
 }
 
 .yaml-item::before {
   content: "-\20";
-  color: hsl(var(--white));
 }

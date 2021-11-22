@@ -1,10 +1,10 @@
-import { randFloat, randItem } from "./rand.js";
+import { randFloat, randInt, randItem } from "./rand.js";
 
-class BgManager {
+class CanvasManager {
   /**
-   *
+   * Manages a <canvas> element size and draw callbacks.
    */
-  constructor({ density, argsFn }) {
+  constructor({ density, createObject }) {
     this.canvas;
     this.ctx;
     this.objects = [];
@@ -13,13 +13,13 @@ class BgManager {
       height: 0,
     };
     this.density = density * 0.00001;
-    this.argsFn = argsFn;
+    this.createObject = createObject;
 
     addEventListener("resize", this.setDimensions);
   }
 
   /**
-   *
+   * Creates a new canvas element then injects it into the DOM.
    */
   createCanvas() {
     this.canvas = document.createElement("canvas");
@@ -33,7 +33,7 @@ class BgManager {
   }
 
   /**
-   *
+   * Updates the dimensions of the viewport.
    */
   setDimensions = () => {
     this.size = {
@@ -57,8 +57,7 @@ class BgManager {
 
     const addCount = desiredCount - currentCount;
     for (let i = 0; i < addCount; i++) {
-      const obj = new AminationObject(this.argsFn(this.size));
-      this.objects.push(obj);
+      this.objects.push(this.createObject(this.size));
     }
 
     const removeCount = currentCount - desiredCount;
@@ -78,14 +77,14 @@ class AminationObject {
   /**
    *
    */
-  constructor({ center, vector, radius, color, speed, vision }) {
+  constructor({ center, vector, radius, color, speed, vision, lineWidth }) {
     this.center = center;
     this.vector = vector;
     this.radius = radius;
     this.color = color;
     this.speed = speed;
     this.vision = vision;
-    this.lineWidth = [1, 5];
+    this.lineWidth = lineWidth;
     this.neighbours = new Set();
   }
 
@@ -118,12 +117,12 @@ class AminationObject {
       const dX = other.center[0] - this.center[0];
       const dY = other.center[1] - this.center[1];
       const d = Math.sqrt(dX ** 2 + dY ** 2);
-      const dM = this.vision + other.radius;
-      const dP = 1 - d / dM;
-
-      if (dP >= 0) {
+      const dMin = this.radius + other.radius;
+      const dMax = dMin + this.vision;
+      if (d >= dMin && d <= dMax) {
+        const dP = 1 - (d - dMin) / (dMax - dMin);
         const s1 = this.radius / d;
-        const s2 = 1 - s1;
+        const s2 = 1 - other.radius / d;
         const x3 = s1 * dX + this.center[0];
         const y3 = s1 * dY + this.center[1];
         const x4 = s2 * dX + this.center[0];
@@ -131,9 +130,9 @@ class AminationObject {
         ctx.beginPath();
         ctx.moveTo(x3, y3);
         ctx.lineTo(x4, y4);
+        ctx.strokeStyle = this.color;
         ctx.lineWidth =
           (this.lineWidth[1] - this.lineWidth[0]) * dP + this.lineWidth[0];
-        ctx.strokeStyle = this.color;
         ctx.stroke();
       }
     }
@@ -142,24 +141,25 @@ class AminationObject {
 
 if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
   const style = getComputedStyle(document.body);
-  const alpha = 0.5;
+  const alpha = 0.25;
   const colors = [
     `hsla(${style.getPropertyValue("--blue")} / ${alpha})`,
     `hsla(${style.getPropertyValue("--yellow")} / ${alpha})`,
     `hsla(${style.getPropertyValue("--red")} / ${alpha})`,
     `hsla(${style.getPropertyValue("--lime")} / ${alpha})`,
   ];
-  const manager = new BgManager({
+  const manager = new CanvasManager({
     density: 5,
-    argsFn: (size) => {
-      return {
-        radius: 5,
+    createObject: (size) => {
+      return new AminationObject({
+        radius: randInt(5, 20),
         vision: 100,
         center: [randFloat(0, size.width), randFloat(0, size.height)],
         vector: [randFloat(-1, 1), randFloat(-1, 1)],
         speed: randFloat(1, 2),
         color: randItem(colors),
-      };
+        lineWidth: [1, 5],
+      });
     },
   });
   manager.createCanvas();
