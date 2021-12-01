@@ -8,13 +8,9 @@ class CanvasManager {
     this.canvas;
     this.ctx;
     this.objects = [];
-    this.size = {
-      width: 0,
-      height: 0,
-    };
+    this.size = [0, 0];
     this.density = density * 0.00001;
     this.createObject = createObject;
-
     addEventListener("resize", this.setDimensions);
   }
 
@@ -36,35 +32,27 @@ class CanvasManager {
    * Updates the dimensions of the viewport.
    */
   setDimensions = () => {
-    this.size = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-    this.canvas.width = this.size.width;
-    this.canvas.height = this.size.height;
+    this.size = [window.innerWidth, window.innerHeight];
+    this.canvas.width = this.size[0];
+    this.canvas.height = this.size[0];
   };
 
   /**
-   *
+   * Loop for draw callbacks.
    */
   draw = () => {
-    this.ctx.clearRect(0, 0, this.size.width, this.size.height);
-
-    const desiredCount = Math.floor(
-      this.size.width * this.size.height * this.density
-    );
-    const currentCount = this.objects.length;
-
-    const addCount = desiredCount - currentCount;
+    const desiredCount = Math.floor(this.size[0] * this.size[1] * this.density);
+    const addCount = desiredCount - this.objects.length;
     for (let i = 0; i < addCount; i++) {
       this.objects.push(this.createObject(this.size));
     }
 
-    const removeCount = currentCount - desiredCount;
+    const removeCount = this.objects.length - desiredCount;
     for (let i = 0; i < removeCount; i++) {
       this.objects.pop();
     }
 
+    this.ctx.clearRect(0, 0, this.size[0], this.size[1]);
     for (const object of this.objects) {
       object.draw(this.ctx, this.size, this.objects);
     }
@@ -75,38 +63,37 @@ class CanvasManager {
 
 class AminationObject {
   /**
-   *
+   * Controls an object to be animated,
    */
-  constructor({ center, vector, radius, color, speed, vision, lineWidth }) {
-    this.center = center;
+  constructor({ position, vector, radius, color, speed, vision, lineWidth }) {
+    this.position = position;
     this.vector = vector;
     this.radius = radius;
     this.color = color;
     this.speed = speed;
     this.vision = vision;
     this.lineWidth = lineWidth;
-    this.neighbours = new Set();
+    this.lastDrawn = Date.now();
   }
 
-  updatePosition(idx, length) {
-    this.center[idx] += this.vector[idx] * this.speed;
-
-    // Too small
-    if (this.center[idx] <= -this.radius) {
-      this.center[idx] = length + this.radius;
-    }
-    // Too big
-    else if (this.center[idx] >= length + this.radius) {
-      this.center[idx] = -this.radius;
-    }
-  }
-
+  /**
+   * Draws our object to the canvas.
+   */
   draw(ctx, size, others) {
-    this.updatePosition(0, size.width);
-    this.updatePosition(1, size.height);
+    const delay = Date.now() - this.lastDrawn;
+    const movement = this.speed * delay;
+
+    for (let i = 0; i <= 1; i++) {
+      this.position[i] += this.vector[i] * movement;
+      if (this.position[i] <= -this.radius) {
+        this.position[i] = size[i] + this.radius;
+      } else if (this.position[i] >= size[i] + this.radius) {
+        this.position[i] = -this.radius;
+      }
+    }
 
     ctx.beginPath();
-    ctx.arc(this.center[0], this.center[1], this.radius, 0, Math.PI * 2);
+    ctx.arc(this.position[0], this.position[1], this.radius, 0, Math.PI * 2);
     ctx.fillStyle = this.color;
     ctx.fill();
 
@@ -114,8 +101,8 @@ class AminationObject {
       if (other === this) {
         continue;
       }
-      const dX = other.center[0] - this.center[0];
-      const dY = other.center[1] - this.center[1];
+      const dX = other.position[0] - this.position[0];
+      const dY = other.position[1] - this.position[1];
       const d = Math.sqrt(dX ** 2 + dY ** 2);
       const dMin = this.radius + other.radius;
       const dMax = dMin + this.vision;
@@ -123,10 +110,10 @@ class AminationObject {
         const dP = 1 - (d - dMin) / (dMax - dMin);
         const s1 = this.radius / d;
         const s2 = 1 - other.radius / d;
-        const x3 = s1 * dX + this.center[0];
-        const y3 = s1 * dY + this.center[1];
-        const x4 = s2 * dX + this.center[0];
-        const y4 = s2 * dY + this.center[1];
+        const x3 = s1 * dX + this.position[0];
+        const y3 = s1 * dY + this.position[1];
+        const x4 = s2 * dX + this.position[0];
+        const y4 = s2 * dY + this.position[1];
         ctx.beginPath();
         ctx.moveTo(x3, y3);
         ctx.lineTo(x4, y4);
@@ -136,6 +123,7 @@ class AminationObject {
         ctx.stroke();
       }
     }
+    this.lastDrawn = Date.now();
   }
 }
 
@@ -154,9 +142,9 @@ if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
       return new AminationObject({
         radius: randInt(5, 10),
         vision: 100,
-        center: [randFloat(0, size.width), randFloat(0, size.height)],
+        position: [randFloat(0, size[0]), randFloat(0, size[1])],
         vector: [randFloat(-1, 1), randFloat(-1, 1)],
-        speed: randFloat(1, 2),
+        speed: randFloat(0.01, 0.1),
         color: randItem(colors),
         lineWidth: [1, 5],
       });
