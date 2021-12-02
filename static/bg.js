@@ -4,13 +4,13 @@ class CanvasManager {
   /**
    * Manages a <canvas> element size and draw callbacks.
    */
-  constructor({ density, createObject }) {
+  constructor({ density, createFn }) {
     this.canvas;
     this.ctx;
     this.objects = [];
     this.size = [0, 0];
-    this.density = density * 0.00001;
-    this.createObject = createObject;
+    this.density = density;
+    this.createFn = createFn;
     addEventListener("resize", this.setDimensions);
   }
 
@@ -34,7 +34,7 @@ class CanvasManager {
   setDimensions = () => {
     this.size = [window.innerWidth, window.innerHeight];
     this.canvas.width = this.size[0];
-    this.canvas.height = this.size[0];
+    this.canvas.height = this.size[1];
   };
 
   /**
@@ -44,7 +44,7 @@ class CanvasManager {
     const desiredCount = Math.floor(this.size[0] * this.size[1] * this.density);
     const addCount = desiredCount - this.objects.length;
     for (let i = 0; i < addCount; i++) {
-      this.objects.push(this.createObject(this.size));
+      this.objects.push(this.createFn(this.size));
     }
 
     const removeCount = this.objects.length - desiredCount;
@@ -137,8 +137,8 @@ if (matchMedia("(prefers-reduced-motion: no-preference)").matches) {
     `hsla(${style.getPropertyValue("--lime")} / ${alpha})`,
   ];
   const manager = new CanvasManager({
-    density: 5,
-    createObject: (size) => {
+    density: 0.00005,
+    createFn: (size) => {
       return new AminationObject({
         radius: randInt(5, 10),
         vision: 100,
